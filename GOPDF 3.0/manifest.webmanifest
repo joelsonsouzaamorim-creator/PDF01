@@ -1,0 +1,21 @@
+{
+  "name": "Gopdf",
+  "short_name": "Gopdf",
+  "description": "Plataforma profissional para gestão e processamento de PDFs.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f2f7fc",
+  "theme_color": "#0f2b4a",
+  "icons": [
+    {
+      "src": "/gopdf-brand-icon-64.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "/gopdf-brand-icon-256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Assine o GoPDF Premium com checkout profissional, autenticação segura e confirmação automática via webhook.">
+  <meta name="robots" content="index,follow">
+  <meta name="theme-color" content="#0f2b4a">
+  <link rel="canonical" href="https://gopdf.com.br/assinatura-premium.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Assinatura Premium | GoPDF">
+  <meta property="og:description" content="Checkout profissional com Pix e cartão via Asaas, ativação após confirmação real de pagamento.">
+  <meta property="og:url" content="https://gopdf.com.br/assinatura-premium.html">
+  <meta property="og:image" content="https://gopdf.com.br/gopdf-hero.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Assinatura Premium | GoPDF">
+  <meta name="twitter:description" content="Ative o GoPDF Premium com segurança e rastreabilidade de cobrança.">
+  <meta name="twitter:image" content="https://gopdf.com.br/gopdf-hero.jpg">
+  <title>Assinatura Premium | GoPDF</title>
+  <link rel="icon" type="image/png" href="gopdf-brand-icon-256.png">
+  <link rel="apple-touch-icon" href="gopdf-brand-icon-256.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css?v=2026.04.20-visual-1">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+  <link rel="stylesheet" href="assets/css/global-topbar.css?v=2026.04.19-210500">
+</head>
+<body class="info-page-body">
+  <header class="gopdf-global-topbar">
+    <div class="gopdf-global-topbar-shell">
+      <a href="index.html" class="gopdf-global-brand" aria-label="Voltar para a página inicial do GoPDF">
+        <img class="gopdf-global-brand-icon" src="gopdf-brand-icon-256.png" alt="Logo GoPDF">
+        <div class="gopdf-global-brand-copy">
+          <span>GoPDF</span>
+          <small>Documentos e fluxos profissionais</small>
+        </div>
+      </a>
+      <nav class="gopdf-global-nav" aria-label="Menu principal">
+        <a href="index.html#home-tools-grid" class="gopdf-global-nav-link">Soluções</a>
+        <a href="index.html#home-plans" class="gopdf-global-nav-link">Planos</a>
+        <a href="index.html#home-sectors" class="gopdf-global-nav-link">Setores</a>
+        <a href="index.html#home-security" class="gopdf-global-nav-link">Conformidade</a>
+        <a href="index.html#home-faq" class="gopdf-global-nav-link">FAQ</a>
+      </nav>
+      <div class="gopdf-global-actions">
+        <a id="topbar-login-entry" href="entrar.html?next=assinatura-premium.html" class="gopdf-global-login-link">Entrar</a>
+        <a id="topbar-request-entry" href="cadastro.html?next=assinatura-premium.html" class="gopdf-global-login-link gopdf-global-register-link">Criar conta</a>
+        <a id="topbar-profile-entry" href="perfil.html" class="gopdf-global-profile-link" style="display:none">Meu perfil</a>
+        <button id="topbar-logout-entry" type="button" class="gopdf-global-logout-btn" style="display:none">Sair</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="info-page-shell">
+    <main class="checkout-layout">
+      <section class="checkout-card checkout-main" aria-labelledby="checkout-title">
+        <span class="info-kicker">Assinatura Premium</span>
+        <h1 id="checkout-title">Finalize sua assinatura com autenticação e cobrança real</h1>
+        <p class="checkout-intro">
+          O checkout Premium opera em modo de produção: usuário autenticado, cobrança criada no Asaas
+          e ativação do plano apenas após confirmação oficial via webhook.
+        </p>
+
+        <div id="checkoutAuthGate" class="checkout-auth-gate" hidden></div>
+
+        <div class="checkout-step-strip" aria-label="Etapas da assinatura premium">
+          <article class="checkout-step-card">
+            <strong>1. Login seguro</strong>
+            <span>Faça login ou cadastro para contratar com rastreabilidade de usuário.</span>
+          </article>
+          <article class="checkout-step-card">
+            <strong>2. Cobrança real</strong>
+            <span>O sistema cria cobrança profissional no Asaas com método Pix ou cartão.</span>
+          </article>
+          <article class="checkout-step-card">
+            <strong>3. Ativação automática</strong>
+            <span>O plano só ativa após evento confirmado no webhook da operadora.</span>
+          </article>
+        </div>
+
+        <form id="premiumCheckoutForm" class="checkout-form" novalidate>
+          <section class="checkout-plan-picker" aria-labelledby="checkout-plan-title">
+            <div class="checkout-section-head">
+              <h2 id="checkout-plan-title">Escolha o ciclo da assinatura</h2>
+              <p>Selecione mensal ou anual antes de gerar a cobrança no Asaas.</p>
+            </div>
+            <div class="checkout-plan-grid" role="group" aria-label="Escolha do ciclo de assinatura">
+              <button type="button" class="checkout-plan-btn is-active" data-plan="monthly" aria-pressed="true">
+                <span class="checkout-plan-badge">Mensal</span>
+                <strong>R$ 18,00 <small>/ mês</small></strong>
+                <em>Flexível para operação recorrente.</em>
+              </button>
+              <button type="button" class="checkout-plan-btn" data-plan="annual" aria-pressed="false">
+                <span class="checkout-plan-badge">Anual 20% OFF</span>
+                <strong>R$ 172,80 <small>/ ano</small></strong>
+                <em>Equivale a R$ 14,40/mês e economiza R$ 43,20 por usuário/ano.</em>
+              </button>
+            </div>
+          </section>
+
+          <section class="checkout-form-block">
+            <div class="checkout-section-head">
+              <h2>Dados do assinante</h2>
+              <p>Esses dados são vinculados à conta autenticada e ao histórico da assinatura.</p>
+            </div>
+
+            <div class="checkout-field-grid">
+              <label class="checkout-field" for="checkoutName">
+                <span>Nome completo</span>
+                <input id="checkoutName" name="nome" type="text" autocomplete="name" readonly>
+              </label>
+              <label class="checkout-field" for="checkoutEmail">
+                <span>Email</span>
+                <input id="checkoutEmail" name="email" type="email" autocomplete="email" readonly>
+              </label>
+              <label class="checkout-field" for="checkoutPhone">
+                <span>Telefone com DDD</span>
+                <input id="checkoutPhone" name="telefone" type="tel" autocomplete="tel" readonly>
+              </label>
+              <label class="checkout-field" for="checkoutDocument">
+                <span>CPF ou CNPJ do titular</span>
+                <input id="checkoutDocument" name="documento" type="text" inputmode="numeric" autocomplete="off" placeholder="000.000.000-00 ou 00.000.000/0000-00" required>
+              </label>
+            </div>
+          </section>
+
+          <section class="checkout-form-block">
+            <div class="checkout-section-head">
+              <h2>Escolha a forma de pagamento</h2>
+              <p>As cobranças são processadas no Asaas com confirmação automática no backend do GoPDF.</p>
+            </div>
+
+            <div class="checkout-method-switch" role="tablist" aria-label="Método de pagamento">
+              <button type="button" class="checkout-method-btn is-active" id="methodPixBtn" data-method="pix" role="tab" aria-selected="true" aria-controls="checkoutPanelPix">Pix</button>
+              <button type="button" class="checkout-method-btn" id="methodCardBtn" data-method="card" role="tab" aria-selected="false" aria-controls="checkoutPanelCard">Cartão de crédito</button>
+            </div>
+
+            <section id="checkoutPanelPix" class="checkout-method-panel is-active" role="tabpanel" aria-labelledby="methodPixBtn">
+              <div class="checkout-pix-card">
+                <strong>Cobrança Pix</strong>
+                <p>Gere a cobrança Pix e copie o código para pagamento no app do seu banco.</p>
+                <div class="checkout-copy-row">
+                  <div class="checkout-copy-value" id="pixKeyDisplay">pagamento@gopdf.com.br</div>
+                  <button type="button" class="checkout-copy-btn" id="copyPixBtn">Copiar código</button>
+                </div>
+              </div>
+
+              <div class="checkout-action-row">
+                <button type="button" class="info-cta-btn primary" id="pixConfirmBtn">Gerar cobrança Pix</button>
+                <a class="info-cta-btn secondary" href="mailto:suporte@gopdf.com.br?subject=D%C3%BAvida%20sobre%20checkout%20Premium">Falar com suporte</a>
+              </div>
+              <div id="pixFeedback" class="checkout-feedback" hidden></div>
+            </section>
+
+            <section id="checkoutPanelCard" class="checkout-method-panel" role="tabpanel" aria-labelledby="methodCardBtn" hidden>
+              <div class="checkout-card-guide" aria-label="Fluxo do checkout de cartão">
+                <ol>
+                  <li>Clique em <strong>Gerar checkout de cartão</strong>.</li>
+                  <li>Abra o checkout seguro do Asaas em nova aba.</li>
+                  <li>Finalize o pagamento e volte para esta página.</li>
+                </ol>
+              </div>
+              <div class="checkout-card-trust" aria-label="Camadas de segurança do pagamento">
+                <span>Checkout hospedado Asaas</span>
+                <span>Ambiente PCI</span>
+                <span>Sem armazenamento de CVV no GoPDF</span>
+              </div>
+              <p class="checkout-security-note">
+                Para segurança PCI, o cartão é finalizado no checkout hospedado do Asaas. O GoPDF não armazena número de cartão nem CVV.
+              </p>
+              <div class="checkout-action-row">
+                <button type="button" class="info-cta-btn primary" id="cardConfirmBtn" data-loading-text="Gerando checkout seguro...">Gerar checkout de cartão</button>
+                <a class="info-cta-btn secondary" id="cardOpenBtn" href="#" target="_blank" rel="noopener noreferrer" hidden>Abrir checkout seguro</a>
+              </div>
+              <div id="cardFeedback" class="checkout-feedback" hidden></div>
+            </section>
+          </section>
+        </form>
+      </section>
+
+      <aside class="checkout-card checkout-side">
+        <span class="pricing-flag">Plano Premium mensal e anual</span>
+        <div class="pricing-value" id="checkoutPlanPrice">R$ 18,00 <small>/ mês</small></div>
+        <p class="pricing-caption" id="checkoutPlanCaption">Assinatura mensal para equipes que precisam de fluxo profissional, segurança e rastreabilidade.</p>
+
+        <div class="checkout-summary-list">
+          <div class="checkout-summary-item">
+            <strong>Investimento selecionado</strong>
+            <span id="checkoutPlanSummary">Mensal: R$ 18,00 por usuário/mês.</span>
+          </div>
+          <div class="checkout-summary-item">
+            <strong>Opções disponíveis</strong>
+            <span>Mensal (R$ 18,00) ou anual (R$ 172,80 com 20% OFF).</span>
+          </div>
+          <div class="checkout-summary-item">
+            <strong>Autenticação real</strong>
+            <span>Checkout vinculado ao usuário logado no backend.</span>
+          </div>
+          <div class="checkout-summary-item">
+            <strong>Asaas integrado</strong>
+            <span>Cobrança gerada por API com status sincronizado via webhook.</span>
+          </div>
+          <div class="checkout-summary-item">
+            <strong>Ativação confiável</strong>
+            <span>Assinatura ativa apenas após confirmação oficial de pagamento.</span>
+          </div>
+        </div>
+
+        <div id="subscriptionStatus" class="checkout-status-card">
+          <strong>Assinatura ainda não ativada</strong>
+          <span>Faça login e gere a cobrança para iniciar a contratação.</span>
+        </div>
+
+        <div class="premium-offer-note">
+          <strong>Conformidade e transparência</strong>
+          <span>
+            Ao continuar você concorda com os <a href="termos-de-uso.html">Termos</a>, a
+            <a href="politica-de-privacidade.html">Política de Privacidade</a> e as diretrizes de
+            <a href="lgpd.html">LGPD</a>.
+          </span>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="info-site-footer">
+      <div class="info-site-footer-row">
+        <strong>GoPDF Premium</strong>
+        <div class="info-site-footer-links">
+          <a href="premium.html">Voltar ao Premium</a>
+          <a href="entrar.html?next=assinatura-premium.html">Entrar</a>
+          <a href="cadastro.html?next=assinatura-premium.html">Criar conta</a>
+          <a href="contato.html">Contato</a>
+          <a href="mailto:suporte@gopdf.com.br">suporte@gopdf.com.br</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script type="module" src="assets/js/pages/checkout.js"></script>
+  <script type="module" src="assets/js/pages/home-session.js?v=2026.04.19-210500"></script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Acesse sua conta GoPDF com autenticacao segura para contratar e gerenciar o plano Premium.">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://gopdf.com.br/entrar.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Entrar | GoPDF">
+  <meta property="og:description" content="Faça login com seguranca para acessar o ambiente profissional do GoPDF.">
+  <meta property="og:url" content="https://gopdf.com.br/entrar.html">
+  <meta property="og:image" content="https://gopdf.com.br/gopdf-brand-icon-256.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Entrar | GoPDF">
+  <meta name="twitter:description" content="Autenticacao segura para assinatura e gestao do plano Premium.">
+  <meta name="twitter:image" content="https://gopdf.com.br/gopdf-brand-icon-256.png">
+  <title>Entrar | GoPDF</title>
+  <link rel="icon" type="image/png" href="gopdf-brand-icon-256.png">
+  <link rel="apple-touch-icon" href="gopdf-brand-icon-256.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jákarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/pages.css">
+  <link rel="stylesheet" href="assets/css/global-topbar.css?v=2026.04.19-210500">
+</head>
+<body>
+  <header class="gopdf-global-topbar">
+    <div class="gopdf-global-topbar-shell">
+      <a href="index.html" class="gopdf-global-brand" aria-label="Voltar para a pagina inicial do GoPDF">
+        <img class="gopdf-global-brand-icon" src="gopdf-brand-icon-256.png" alt="Logo GoPDF">
+        <div class="gopdf-global-brand-copy">
+          <span>GoPDF</span>
+          <small>Documentos e fluxos profissionais</small>
+        </div>
+      </a>
+      <nav class="gopdf-global-nav" aria-label="Menu principal">
+        <a href="index.html#home-tools-grid" class="gopdf-global-nav-link">Solu&ccedil;&otilde;es</a>
+        <a href="index.html#home-plans" class="gopdf-global-nav-link">Planos</a>
+        <a href="index.html#home-sectors" class="gopdf-global-nav-link">Setores</a>
+        <a href="index.html#home-security" class="gopdf-global-nav-link">Conformidade</a>
+        <a href="index.html#home-faq" class="gopdf-global-nav-link">FAQ</a>
+      </nav>
+      <div class="gopdf-global-actions">
+        <a id="topbar-login-entry" href="entrar.html?next=entrar.html" class="gopdf-global-login-link">Entrar</a>
+        <a id="topbar-request-entry" href="cadastro.html?next=entrar.html" class="gopdf-global-login-link gopdf-global-register-link">Criar conta</a>
+        <a id="topbar-profile-entry" href="perfil.html" class="gopdf-global-profile-link" style="display:none">Meu perfil</a>
+        <button id="topbar-logout-entry" type="button" class="gopdf-global-logout-btn" style="display:none">Sair</button>
+      </div>
+    </div>
+  </header>
+  <main class="auth-layout auth-page-main">
+    <section class="auth-card page-card auth-page-card" aria-labelledby="login-title">
+      <div class="auth-page-grid">
+        <article class="auth-spotlight" aria-label="Resumo de benefícios">
+          <span class="auth-spotlight-kicker">area segura GoPDF</span>
+          <h2>Seu painel de documentos em um acesso rapido</h2>
+          <p>Entre na conta para abrir suas ferramentas, acompanhar assinatura e gerenciar dados com segurança.</p>
+          <ul class="auth-spotlight-list">
+            <li>Checkout premium com validação de sessao.</li>
+            <li>Painel de perfil centralizado e atualizado.</li>
+            <li>Fluxo pronto para equipes e operacao diaria.</li>
+          </ul>
+          <div class="auth-spotlight-actions">
+            <a class="auth-spotlight-link" href="premium.html">Ver recursos premium</a>
+            <a class="auth-spotlight-link auth-spotlight-link-strong" href="assinatura-premium.html">Ir para checkout</a>
+          </div>
+        </article>
+
+        <div class="auth-page-form-wrap">
+          <header class="auth-head auth-page-head">
+            <span class="auth-kicker">Acesso Seguro</span>
+            <h1 id="login-title">Entrar na conta GoPDF</h1>
+            <p>Use seu email e senha para acessar o ambiente profissional e continuar seu fluxo sem interrupcao.</p>
+          </header>
+
+          <form id="loginForm" class="auth-form auth-page-form" novalidate>
+            <label class="auth-field" for="loginEmail">
+              <span>Email</span>
+              <input id="loginEmail" type="email" autocomplete="email" required placeholder="voce@empresa.com.br">
+            </label>
+
+            <label class="auth-field" for="loginPassword">
+              <span>Senha</span>
+              <input id="loginPassword" type="password" autocomplete="current-password" required placeholder="Sua senha">
+            </label>
+
+            <button id="loginSubmitBtn" class="auth-submit" type="submit">Entrar com segurança</button>
+            <div id="authFeedback" class="auth-feedback" hidden></div>
+          </form>
+
+          <div class="auth-page-links">
+            <p class="auth-alt">
+              Ainda nao tem conta? <a href="cadastro.html?next=index.html">Criar conta agora</a>
+            </p>
+            <p class="auth-alt">
+              <a href="index.html">Voltar para a pagina inicial</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="assets/js/pages/auth-login.js"></script>
+  <script type="module" src="assets/js/pages/home-session.js?v=2026.04.19-210500"></script>
+</body>
+</html>
+
+
+
+
+
+
+

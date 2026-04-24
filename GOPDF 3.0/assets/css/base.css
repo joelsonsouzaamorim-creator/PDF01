@@ -1,0 +1,44 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  color: var(--text-body);
+  font-family: "Plus Jakarta Sans", "Segoe UI", sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(245, 158, 11, 0.12), transparent 24%),
+    radial-gradient(circle at right center, rgba(15, 23, 42, 0.08), transparent 28%),
+    linear-gradient(180deg, #f7f4ee 0%, #f4f1eb 56%, #f7f4ee 100%);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: var(--brand-blue);
+}
+
+a:hover {
+  color: #a94a00;
+}
+
+.page-shell {
+  width: min(1100px, calc(100% - 32px));
+  margin: 26px auto;
+}
+
+.page-card {
+  background: linear-gradient(180deg, #ffffff 0%, #fdfbf7 100%);
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  box-shadow: var(--shadow-soft);
+}

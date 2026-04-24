@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Gerencie seu perfil no GoPDF: dados pessoais, contatos, endereço, CPF/CNPJ e senha.">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Meu Perfil | GoPDF</title>
+  <link rel="icon" type="image/png" href="gopdf-brand-icon-256.png">
+  <link rel="apple-touch-icon" href="gopdf-brand-icon-256.png">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/tokens.css">
+  <link rel="stylesheet" href="assets/css/base.css">
+  <link rel="stylesheet" href="assets/css/components.css">
+  <link rel="stylesheet" href="assets/css/pages.css?v=2026.04.22-103000">
+  <link rel="stylesheet" href="assets/css/global-topbar.css?v=2026.04.19-210500">
+</head>
+<body>
+  <header class="gopdf-global-topbar">
+    <div class="gopdf-global-topbar-shell">
+      <a href="index.html" class="gopdf-global-brand" aria-label="Voltar para a página inicial do GoPDF">
+        <img class="gopdf-global-brand-icon" src="gopdf-brand-icon-256.png" alt="Logo GoPDF">
+        <div class="gopdf-global-brand-copy">
+          <span>GoPDF</span>
+          <small>Documentos e fluxos profissionais</small>
+        </div>
+      </a>
+      <nav class="gopdf-global-nav" aria-label="Menu principal">
+        <a href="index.html#home-tools-grid" class="gopdf-global-nav-link">Solu&ccedil;&otilde;es</a>
+        <a href="index.html#home-plans" class="gopdf-global-nav-link">Planos</a>
+        <a href="index.html#home-sectors" class="gopdf-global-nav-link">Setores</a>
+        <a href="index.html#home-security" class="gopdf-global-nav-link">Conformidade</a>
+        <a href="index.html#home-faq" class="gopdf-global-nav-link">FAQ</a>
+      </nav>
+      <div class="gopdf-global-actions">
+        <a id="topbar-login-entry" href="entrar.html?next=perfil.html" class="gopdf-global-login-link">Entrar</a>
+        <a id="topbar-request-entry" href="cadastro.html?next=perfil.html" class="gopdf-global-login-link gopdf-global-register-link">Criar conta</a>
+        <a id="topbar-profile-entry" href="perfil.html" class="gopdf-global-profile-link" style="display:none">Meu perfil</a>
+        <button id="topbar-logout-entry" type="button" class="gopdf-global-logout-btn" style="display:none">Sair</button>
+      </div>
+    </div>
+  </header>
+  <main class="auth-layout profile-layout">
+    <section class="auth-card page-card profile-card" data-module-view="account" aria-labelledby="profile-title">
+      <header class="auth-head profile-head">
+        <div class="profile-head-top">
+          <span class="auth-kicker">Conta do Usuário</span>
+          <a class="profile-home-link" href="index.html">Voltar para a home</a>
+        </div>
+        <h1 id="profile-title">Meu perfil</h1>
+        <p>Atualize seus dados, contatos, documento e senha em um único painel. O status do seu plano tambem aparece aqui em tempo real.</p>
+        <div id="profileModuleSwitch" class="profile-module-switch" hidden aria-label="Alternar módulo da conta">
+          <button id="profileViewAccountBtn" type="button" class="profile-module-btn is-active" data-view="account" aria-pressed="true">Conta do usuário</button>
+          <button id="profileViewAdminBtn" type="button" class="profile-module-btn" data-view="admin" aria-pressed="false">Módulo administrativo</button>
+        </div>
+      </header>
+
+      <section class="profile-overview" aria-label="Resumo da conta">
+        <div class="profile-access-box">
+          <span id="profileAccessBadge" class="profile-access-badge">Plano gratuito</span>
+          <p id="profileAccessDetail">Carregando status da assinatura...</p>
+          <div id="profileUpgradeBlock" class="profile-upgrade-block" hidden>
+            <p id="profileUpgradeText" class="profile-upgrade-text">Deseja acessar todos os recursos? Atualize para o Premium.</p>
+            <button id="profileUpgradeBtn" type="button" class="profile-upgrade-btn">Atualizar para Premium</button>
+          </div>
+        </div>
+
+        <ul class="profile-overview-list">
+          <li>Dados salvos com sincronização da sua conta.</li>
+          <li>Alterações de senha com validação de segurança.</li>
+          <li>Painel administrativo liberado apenas para admins.</li>
+        </ul>
+      </section>
+
+      <div class="profile-main-grid">
+        <form id="profileForm" class="auth-form profile-form" novalidate>
+          <section class="profile-form-section" aria-labelledby="profile-main-data-title">
+            <header class="profile-section-head">
+              <h2 id="profile-main-data-title" class="profile-section-title">Dados principais</h2>
+              <p>Mantenha nome, email, telefone e documento sempre atualizados.</p>
+            </header>
+            <div class="profile-grid">
+              <label class="auth-field" for="profileFullName">
+                <span>Nome completo</span>
+                <input id="profileFullName" type="text" autocomplete="name" required>
+              </label>
+
+              <label class="auth-field" for="profileEmail">
+                <span>Email</span>
+                <input id="profileEmail" type="email" autocomplete="email" required>
+              </label>
+
+              <label class="auth-field" for="profilePhone">
+                <span>Telefone com DDD</span>
+                <input id="profilePhone" type="tel" autocomplete="tel" required>
+              </label>
+
+              <label class="auth-field" for="profileDocumentType">
+                <span>Tipo de pessoa</span>
+                <select id="profileDocumentType">
+                  <option value="">Não informado</option>
+                  <option value="cpf">Pessoa física (CPF)</option>
+                  <option value="cnpj">Pessoa jurídica (CNPJ)</option>
+                </select>
+              </label>
+
+              <label class="auth-field profile-grid-wide" for="profileDocumentNumber">
+                <span>CPF ou CNPJ</span>
+                <input id="profileDocumentNumber" type="text" inputmode="numeric" placeholder="Somente números">
+              </label>
+            </div>
+          </section>
+
+          <section class="profile-form-section" aria-labelledby="profile-address-title">
+            <header class="profile-section-head">
+              <h2 id="profile-address-title" class="profile-section-title">Endereço</h2>
+              <p>Use um endereço completo para facilitar faturamento e suporte.</p>
+            </header>
+            <div class="profile-grid">
+              <label class="auth-field" for="profileAddressZip">
+                <span>CEP</span>
+                <input id="profileAddressZip" type="text" placeholder="00000-000">
+              </label>
+
+              <label class="auth-field profile-grid-wide" for="profileAddressStreet">
+                <span>Rua / Logradouro</span>
+                <input id="profileAddressStreet" type="text">
+              </label>
+
+              <label class="auth-field" for="profileAddressNumber">
+                <span>Número</span>
+                <input id="profileAddressNumber" type="text">
+              </label>
+
+              <label class="auth-field" for="profileAddressComplement">
+                <span>Complemento</span>
+                <input id="profileAddressComplement" type="text">
+              </label>
+
+              <label class="auth-field" for="profileAddressDistrict">
+                <span>Bairro</span>
+                <input id="profileAddressDistrict" type="text">
+              </label>
+
+              <label class="auth-field" for="profileAddressCity">
+                <span>Cidade</span>
+                <input id="profileAddressCity" type="text">
+              </label>
+
+              <label class="auth-field" for="profileAddressState">
+                <span>Estado</span>
+                <input id="profileAddressState" type="text" maxlength="40">
+              </label>
+
+              <label class="auth-field" for="profileAddressCountry">
+                <span>País</span>
+                <input id="profileAddressCountry" type="text" value="Brasil">
+              </label>
+            </div>
+          </section>
+
+          <section class="profile-form-section" aria-labelledby="profile-password-title">
+            <header class="profile-section-head">
+              <h2 id="profile-password-title" class="profile-section-title">Alterar senha</h2>
+              <p>Preencha os três campos apenas quando quiser atualizar sua senha.</p>
+            </header>
+            <div class="profile-grid">
+              <label class="auth-field" for="profileCurrentPassword">
+                <span>Senha atual</span>
+                <input id="profileCurrentPassword" type="password" autocomplete="current-password" placeholder="Preencha para trocar a senha">
+              </label>
+
+              <label class="auth-field" for="profileNewPassword">
+                <span>Nova senha</span>
+                <input id="profileNewPassword" type="password" autocomplete="new-password" minlength="8" placeholder="Mínimo de 8 caracteres">
+              </label>
+
+              <label class="auth-field profile-grid-wide" for="profileConfirmPassword">
+                <span>Confirmar nova senha</span>
+                <input id="profileConfirmPassword" type="password" autocomplete="new-password" minlength="8">
+              </label>
+            </div>
+          </section>
+
+          <div class="profile-form-actions">
+            <button id="profileSaveBtn" class="auth-submit" type="submit">Salvar alterações</button>
+            <button id="profileLogoutBtn" type="button" class="profile-logout-btn">Sair da conta</button>
+          </div>
+          <div id="profileFeedback" class="auth-feedback" hidden></div>
+        </form>
+
+        <aside class="profile-side-panel" aria-label="Atalhos e segurança">
+          <article class="profile-side-card">
+            <span class="profile-side-kicker">Segurança da conta</span>
+            <strong>Boas praticas recomendadas</strong>
+            <ul>
+              <li>Use uma senha exclusiva com no mínimo 8 caracteres.</li>
+              <li>Revise email e telefone para recuperar acesso rápido.</li>
+              <li>Mantenha seu documento e endereço atualizados.</li>
+            </ul>
+          </article>
+
+          <article id="profileSidePremiumCard" class="profile-side-card profile-side-card-cta">
+            <span id="profileSidePremiumKicker" class="profile-side-kicker">Mais recursos</span>
+            <strong id="profileSidePremiumTitle">Quer liberar ferramentas premium?</strong>
+            <p id="profileSidePremiumText">Acesse todas as funções avancadas e aumente sua produtividade no GoPDF.</p>
+            <div id="profileSidePremiumActions" class="profile-side-actions">
+              <a class="profile-side-link" href="premium.html">Ver benefícios</a>
+              <a class="profile-side-link profile-side-link-strong" href="assinatura-premium.html?from=perfil">Fazer upgrade</a>
+            </div>
+          </article>
+        </aside>
+      </div>
+
+      <section id="cpanel-admin-module" class="profile-admin-panel" hidden aria-label="Painel administrativo">
+        <header class="profile-admin-head">
+          <span class="profile-admin-kicker">Módulo administrativo</span>
+          <h2>Criação e edição de usuários</h2>
+          <p>Somente administradores podem criar novos usuários e alterar tipo de conta de usuários já cadastrados.</p>
+          <p class="profile-admin-corporate-text"><strong>Campo corporativo:</strong> painel destinado ao controle corporativo de usuários, fluxo de acesso e faturamento.</p>
+        </header>
+
+        <div id="cpanel-admin-console" class="cpanel-admin-console" hidden>
+          <div class="cpanel-admin-head">
+            <strong>Criar novo usuário</strong>
+            <p>Defina os dados iniciais, filtre usuários, acompanhe fluxo de acesso e visualize faturamento.</p>
+          </div>
+
+          <div class="cpanel-admin-tabs" role="tablist" aria-label="Navegacao do módulo administrativo">
+            <button id="cpanelTabUsers" type="button" class="cpanel-admin-tab-btn is-active" data-tab="users" role="tab" aria-selected="true" aria-expanded="true" aria-controls="cpanelUsersPane" tabindex="0">Usuários</button>
+            <button id="cpanelTabAccess" type="button" class="cpanel-admin-tab-btn" data-tab="access" role="tab" aria-selected="false" aria-expanded="false" aria-controls="cpanelAccessPane" tabindex="-1">Fluxo de acesso</button>
+            <button id="cpanelTabBilling" type="button" class="cpanel-admin-tab-btn" data-tab="billing" role="tab" aria-selected="false" aria-expanded="false" aria-controls="cpanelBillingPane" tabindex="-1">Faturamento</button>
+          </div>
+
+          <div id="cpanelAdminFeedback" class="cpanel-admin-feedback" hidden></div>
+
+          <section id="cpanelUsersPane" class="cpanel-admin-pane is-active" data-pane="users" role="tabpanel" aria-label="Gestão de usuários" aria-labelledby="cpanelTabUsers">
+            <div class="cpanel-admin-kpi-grid" aria-label="Indicadores de usuários">
+              <article class="cpanel-admin-kpi-card">
+                <span>Total cadastrados</span>
+                <strong id="cpanelUsersTotalKpi">0</strong>
+              </article>
+              <article class="cpanel-admin-kpi-card">
+                <span>Administradores</span>
+                <strong id="cpanelUsersAdminsKpi">0</strong>
+              </article>
+              <article class="cpanel-admin-kpi-card">
+                <span>Premium</span>
+                <strong id="cpanelUsersPremiumKpi">0</strong>
+              </article>
+              <article class="cpanel-admin-kpi-card">
+                <span>Gratuito</span>
+                <strong id="cpanelUsersFreeKpi">0</strong>
+              </article>
+            </div>
+
+            <form id="cpanel-create-user-form" class="cpanel-admin-form" novalidate>
+              <div class="cpanel-admin-grid">
+                <label class="cpanel-admin-field" for="cpanelCreateFullName">
+                  <span>Nome completo</span>
+                  <input id="cpanelCreateFullName" type="text" required placeholder="Ex: Maria da Silva">
+                </label>
+
+                <label class="cpanel-admin-field" for="cpanelCreateEmail">
+                  <span>Email</span>
+                  <input id="cpanelCreateEmail" type="email" required placeholder="email@dominio.com">
+                </label>
+
+                <label class="cpanel-admin-field" for="cpanelCreatePhone">
+                  <span>Telefone</span>
+                  <input id="cpanelCreatePhone" type="tel" required placeholder="(00) 00000-0000">
+                </label>
+
+                <label class="cpanel-admin-field" for="cpanelCreatePassword">
+                  <span>Senha inicial</span>
+                  <input id="cpanelCreatePassword" type="password" required minlength="8" placeholder="Mínimo 8 caracteres">
+                </label>
+
+                <label class="cpanel-admin-field" for="cpanelCreateAccessLevel">
+                  <span>Tipo de conta</span>
+                  <select id="cpanelCreateAccessLevel" required>
+                    <option value="gratuito">Gratuito</option>
+                    <option value="premium">Premium por dias</option>
+                    <option value="administrador">Administrador</option>
+                  </select>
+                </label>
+
+                <label id="cpanelCreateTrialDaysField" class="cpanel-admin-field" for="cpanelCreateTrialDays" hidden>
+                  <span>Dias de premium</span>
+                  <input id="cpanelCreateTrialDays" type="number" min="1" max="30" value="7">
+                </label>
+              </div>
+
+              <div class="cpanel-admin-actions">
+                <button id="cpanelCreateUserBtn" class="cpanel-admin-btn cpanel-admin-btn-primary" type="submit">Criar usuário</button>
+                <button id="cpanelRefreshUsersBtn" class="cpanel-admin-btn cpanel-admin-btn-secondary" type="button">Atualizar lista</button>
+              </div>
+            </form>
+
+            <div class="cpanel-admin-filter-box">
+              <div class="cpanel-admin-filter-grid">
+                <label class="cpanel-admin-field" for="cpanelUsersSearchInput">
+                  <span>Busca por nome, email ou telefone</span>
+                  <input id="cpanelUsersSearchInput" type="search" placeholder="Ex: Neto, email@dominio.com ou (68) 99999-9999">
+                </label>
+
+                <label class="cpanel-admin-field" for="cpanelUsersProfileFilter">
+                  <span>Perfil</span>
+                  <select id="cpanelUsersProfileFilter">
+                    <option value="all">Todos</option>
+                    <option value="administrador">Somente administradores</option>
+                    <option value="premium">Somente premium</option>
+                    <option value="gratuito">Somente gratuito</option>
+                  </select>
+                </label>
+
+                <label class="cpanel-admin-field" for="cpanelUsersAccessFilter">
+                  <span>Tipo de conta</span>
+                  <select id="cpanelUsersAccessFilter">
+                    <option value="all">Todos os tipos</option>
+                    <option value="administrador">Administrador</option>
+                    <option value="premium">Premium permanente</option>
+                    <option value="teste_premium">Premium por dias</option>
+                    <option value="gratuito">Gratuito</option>
+                  </select>
+                </label>
+              </div>
+              <div class="cpanel-admin-filter-actions">
+                <button id="cpanelUsersApplyFiltersBtn" class="cpanel-admin-btn cpanel-admin-btn-primary" type="button">Filtrar</button>
+                <button id="cpanelUsersClearFiltersBtn" class="cpanel-admin-btn cpanel-admin-btn-secondary" type="button">Limpar filtros</button>
+                <p id="cpanelUsersCountInfo" class="cpanel-admin-filter-count">Total de usuários: --</p>
+              </div>
+            </div>
+
+            <div class="cpanel-admin-list-head">
+              <strong>Usuários cadastrados</strong>
+              <small>Edite tipo de conta, premium por dias ou administrador para cada usuário.</small>
+            </div>
+            <div id="cpanelAdminUsersList" class="cpanel-admin-users-list"></div>
+          </section>
+
+          <section id="cpanelAccessPane" class="cpanel-admin-pane" data-pane="access" role="tabpanel" aria-label="Fluxo de acesso" aria-labelledby="cpanelTabAccess" hidden>
+            <div class="cpanel-admin-kpi-grid" aria-label="Resumo de acesso">
+              <article class="cpanel-admin-kpi-card">
+                <span>Eventos (30 dias)</span>
+                <strong id="cpanelAccessTotalKpi">0</strong>
+              </article>
+              <article class="cpanel-admin-kpi-card">
+                <span>Login com sucesso</span>
+                <strong id="cpanelAccessLoginSuccessKpi">0</strong>
+              </article>
+              <article class="cpanel-admin-kpi-card">
+                <span>Login negado</span>
+                <strong id="cpanelAccessLoginDeniedKpi">0</strong>
+              </article>
+              <article class="cpanel-admin-kpi-card">
+                <span>Cadastros</span>
+                <strong id="cpanelAccessRegisterKpi">0</strong>
+              </article>
+            </div>
+            <div class="cpanel-admin-list-head">
+              <strong>Fluxo de acesso ao site</strong>
+              <small>Eventos recentes de login, logout e cadastro para acompanhamento administrativo.</small>
+            </div>
+            <div class="cpanel-admin-access-users-box" aria-label="Seleção de usuário para fluxo de acesso">
+              <label class="cpanel-admin-field" for="cpanelAdminAccessUsersFilter">
+                <span>Usuários</span>
+                <input id="cpanelAdminAccessUsersFilter" type="search" placeholder="Buscar usuário por nome ou email">
+              </label>
+              <div id="cpanelAdminAccessUsersList" class="cpanel-admin-access-users-list" role="listbox" aria-label="Usuários com eventos de acesso"></div>
+              <p id="cpanelAdminAccessCurrentUser" class="cpanel-admin-access-current">Selecione um usuário para visualizar o fluxo de acesso individual.</p>
+            </div>
+            <div id="cpanelAdminAccessFlowList" class="cpanel-admin-timeline-list"></div>
+          </section>
+
+          <section id="cpanelBillingPane" class="cpanel-admin-pane" data-pane="billing" role="tabpanel" aria-label="Faturamento" aria-labelledby="cpanelTabBilling" hidden>
+            <div class="cpanel-admin-kpi-grid" aria-label="Resumo de faturamento">
+              <article class="cpanel-admin-kpi-card">
+                <span>Assinaturas ativas</span>
+                <strong id="cpanelBillingActiveKpi">0</strong>
+              </article>
+              <article class="cpanel-admin-kpi-card">
+                <span>Assinaturas pendentes</span>
+                <strong id="cpanelBillingPendingKpi">0</strong>
+              </article>
+              <article class="cpanel-admin-kpi-card">
+                <span>Testes ativos</span>
+                <strong id="cpanelBillingTrialsKpi">0</strong>
+              </article>
+              <article class="cpanel-admin-kpi-card">
+                <span>Receita ativa (BRL)</span>
+                <strong id="cpanelBillingRevenueKpi">R$ 0,00</strong>
+              </article>
+            </div>
+            <div class="cpanel-admin-list-head">
+              <strong>Tela de faturamento</strong>
+              <small>Lista de assinaturas e status de cobrança para controle financeiro.</small>
+            </div>
+            <div id="cpanelAdminBillingList" class="cpanel-admin-timeline-list"></div>
+          </section>
+        </div>
+      </section>
+
+      <p class="auth-alt profile-foot-note">Precisa de ajuda? Entre em contato com o suporte oficial pelo painel principal.</p>
+    </section>
+  </main>
+
+  <script type="module" src="assets/js/pages/profile.js?v=2026.04.19-223800"></script>
+  <script type="module" src="assets/js/pages/admin-cpanel.js?v=2026.04.22-103000"></script>
+  <script type="module" src="assets/js/pages/home-session.js?v=2026.04.19-210500"></script>
+</body>
+</html>
+
+
+
+

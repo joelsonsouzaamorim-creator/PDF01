@@ -1,0 +1,1618 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="GoPDF: plataforma profissional para juntar, dividir, converter, assinar e organizar PDFs com fluxo corporativo e seguranca operacional.">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#0f2b4a">
+<link rel="canonical" href="https://gopdf.com.br/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="GoPDF | Gestao profissional de PDFs">
+<meta property="og:description" content="Ferramentas de PDF com experiência corporativa, seguranca e produtividade para equipes.">
+<meta property="og:url" content="https://gopdf.com.br/">
+<meta property="og:image" content="https://gopdf.com.br/gopdf-hero.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="GoPDF | Gestao profissional de PDFs">
+<meta name="twitter:description" content="Plataforma profissional para fluxos documentais em PDF.">
+<meta name="twitter:image" content="https://gopdf.com.br/gopdf-hero.jpg">
+
+<title>GoPDF | Gestao profissional de PDFs</title>
+
+<link rel="icon" type="image/png" href="gopdf-brand-icon-256.png">
+<link rel="apple-touch-icon" href="gopdf-brand-icon-256.png">
+  <link rel="manifest" href="manifest.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link rel="stylesheet" href="style.css?v=2026.04.19-225600">
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jákarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<script defer src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+
+</head>
+
+<body>
+
+<header class="topbar">
+  <div class="topbar-shell">
+  <button type="button" class="logo home-logo-button" onclick="irParaHome()" aria-label="Ir para a p&aacute;gina inicial do GoPDF">
+    <img class="logo-icon" src="gopdf-brand-icon-256.png" alt="Logo GoPDF">
+    <div class="logo-copy">
+      <span>GoPDF</span>
+      <small>Documentos e fluxos profissionais</small>
+    </div>
+  </button>
+  <div class="topbar-version">
+    <span id="app-version-chip" class="app-version-chip">Versao</span>
+  </div>
+  <nav class="topbar-nav" aria-label="Secoes principais">
+    <button type="button" class="topbar-nav-link" onclick="rolarParaSecao('home-tools-grid')">Solucoes</button>
+    <button type="button" class="topbar-nav-link" onclick="rolarParaSecao('home-plans')">Planos</button>
+    <button type="button" class="topbar-nav-link" onclick="rolarParaSecao('home-sectors')">Setores</button>
+    <button type="button" class="topbar-nav-link" onclick="rolarParaSecao('home-security')">Conformidade</button>
+    <button type="button" class="topbar-nav-link" onclick="rolarParaSecao('home-faq')">FAQ</button>
+  </nav>
+  <div id="topbar-shortcuts" class="topbar-shortcuts" style="display:none">
+    <span class="sec-atalho-label">Ir para:</span>
+    <button onclick="irParaFerramenta('juntar')" class="btn atalho">Juntar PDF</button>
+    <button onclick="irParaFerramenta('dividir')" class="btn atalho">Dividir PDF</button>
+  </div>
+  <div class="topbar-actions">
+    <button id="user-toggle" type="button" class="user-toggle" aria-label="Abrir area do usuario" aria-expanded="false">
+      <span id="user-toggle-avatar" class="user-toggle-avatar">U</span>
+      <span class="user-toggle-text">
+        <span class="user-toggle-label">area do usuario</span>
+        <span id="user-toggle-subtitle" class="user-toggle-subtitle">Faca seu cadastro</span>
+      </span>
+    </button>
+    <div id="user-panel" class="user-panel" style="display:none">
+      <div class="user-panel-header">
+        <div>
+          <strong>area do usuario</strong>
+          <p id="user-panel-subtitle">Use autenticacao segura para assinatura e gestao de conta.</p>
+        </div>
+        <span id="user-panel-badge" class="user-panel-badge">Sem cadastro</span>
+      </div>
+
+      <div class="user-panel-chips" aria-label="Informacoes do cadastro">
+        <span class="user-panel-chip">Autenticacao segura</span>
+        <span class="user-panel-chip">Acesso rapido</span>
+        <span class="user-panel-chip">Sessao segura</span>
+      </div>
+
+      <div id="user-summary" class="user-summary" style="display:none">
+        <div id="user-summary-avatar" class="user-summary-avatar">U</div>
+        <div class="user-summary-body">
+          <div id="user-summary-name" class="user-summary-name">Visitante</div>
+          <div id="user-summary-email" class="user-summary-email">Nenhum email cadastrado</div>
+          <div id="user-summary-meta" class="user-summary-meta">Seus dados de conta sao vinculados ao backend autenticado.</div>
+        </div>
+      </div>
+
+      <div id="user-auth-shell" class="user-auth-shell">
+        <div class="user-auth-switch">
+          <button id="user-tab-login" type="button" class="user-auth-tab">Entrar</button>
+          <button id="user-tab-register" type="button" class="user-auth-tab active">Registre-se</button>
+        </div>
+
+        <div id="user-social-auth" class="user-social-auth" style="display:none">
+          <button id="user-facebook-btn" type="button" class="user-social-btn facebook">
+            <span class="user-social-icon">G</span>
+            <span>Continuar com Google</span>
+          </button>
+          <button id="user-google-btn" type="button" class="user-social-btn google">
+            <span class="user-social-icon">M</span>
+            <span>Continuar com Microsoft</span>
+          </button>
+          <button id="user-sso-btn" type="button" class="user-social-btn sso">
+            <span class="user-social-icon">A</span>
+            <span>Continuar com Apple</span>
+          </button>
+        </div>
+
+        <div id="user-register-external" class="user-register-external" style="display:none">
+          <div class="user-register-external-card">
+            <strong>Cadastro r&aacute;pido</strong>
+            <p>Ao clicar em <em>Registre-se</em>, o GoPDF abre o formul&aacute;rio neste mesmo painel para preencher nome completo, email e senha.</p>
+            <button id="user-open-register-page-btn" type="button" class="btn primary user-primary-auth-btn">Abrir formul&aacute;rio</button>
+          </div>
+        </div>
+
+        <form id="user-login-form" class="user-form user-login-form" style="display:none" novalidate>
+          <div class="user-form-header">
+            <strong>Entre com seu cadastro</strong>
+            <p>Use o email e a senha da sua conta para acessar o ambiente autenticado.</p>
+          </div>
+
+          <div class="user-form-divider">
+            <span>ou entre com seu endere&ccedil;o de email</span>
+          </div>
+          <div class="user-form-grid user-form-grid-single">
+            <label class="user-field">
+              <span>Email</span>
+              <div class="user-input-wrap">
+                <span class="user-input-icon">&#9993;</span>
+                <input id="user-login-email" name="user-login-email" type="email" placeholder="Email cadastrado" maxlength="120" autocomplete="email">
+              </div>
+            </label>
+
+            <label class="user-field">
+              <span>Senha</span>
+              <div class="user-input-wrap">
+                <span class="user-input-icon">&#128274;</span>
+                <input id="user-login-password" name="user-login-password" type="password" placeholder="Sua senha da conta" minlength="6" autocomplete="current-password">
+              </div>
+            </label>
+          </div>
+
+          <div class="user-form-actions">
+            <button id="user-login-btn" type="submit" class="btn primary user-primary-auth-btn">Entrar</button>
+          </div>
+          <p class="user-form-footer">
+            Ainda n&atilde;o tem uma conta?
+            <button id="user-link-register" type="button" class="user-inline-link">Registre-se</button>
+          </p>
+        </form>
+
+        <form id="user-register-form" class="user-form" style="display:block" novalidate>
+          <div class="user-form-header">
+            <strong>Crie sua conta</strong>
+            <p>Informe nome completo, email e senha para criar sua conta com seguranca.</p>
+          </div>
+
+          <div class="user-form-grid user-form-grid-single">
+            <label class="user-field">
+              <span>Nome completo</span>
+              <div class="user-input-wrap">
+                <span class="user-input-icon">&#128100;</span>
+                <input id="user-name" name="user-name" type="text" placeholder="Ex.: Maria Silva" maxlength="80" autocomplete="name" required>
+              </div>
+            </label>
+
+            <label class="user-field">
+              <span>Email</span>
+              <div class="user-input-wrap">
+                <span class="user-input-icon">&#9993;</span>
+                <input id="user-email" name="user-email" type="email" placeholder="voce@empresa.com" maxlength="120" autocomplete="email" required>
+              </div>
+            </label>
+
+            <label class="user-field" style="display:none">
+              <span>Empresa ou &oacute;rg&atilde;o</span>
+              <div class="user-input-wrap">
+                <span class="user-input-icon">&#127970;</span>
+                <input id="user-company" name="user-company" type="text" placeholder="Ex.: Prefeitura de Rio Branco" maxlength="100">
+              </div>
+            </label>
+
+            <label class="user-field" style="display:none">
+              <span>Cargo ou &aacute;rea</span>
+              <div class="user-input-wrap">
+                <span class="user-input-icon">&#128188;</span>
+                <input id="user-role" name="user-role" type="text" placeholder="Ex.: Analista administrativo" maxlength="80">
+              </div>
+            </label>
+
+            <label class="user-field">
+              <span>Senha</span>
+              <div class="user-input-wrap">
+                <span class="user-input-icon">&#128274;</span>
+                <input id="user-password" name="user-password" type="password" placeholder="M&iacute;nimo de 6 caracteres" minlength="6" autocomplete="new-password">
+              </div>
+            </label>
+
+            <label class="user-field" style="display:none">
+              <span>Confirmar senha</span>
+              <div class="user-input-wrap">
+                <span class="user-input-icon">&#128274;</span>
+                <input id="user-password-confirm" name="user-password-confirm" type="password" placeholder="Repita a senha" minlength="6" autocomplete="new-password">
+              </div>
+            </label>
+          </div>
+
+          <div class="user-form-actions">
+            <button id="user-submit-btn" type="submit" class="btn primary user-primary-auth-btn">Cadastrar</button>
+            <button id="user-cancel-btn" type="button" class="btn atalho" style="display:none">Cancelar</button>
+          </div>
+          <label class="user-terms">
+            <input id="user-terms" type="checkbox">
+            <span>Aceito os Termos de Uso e a Pol&iacute;tica de Privacidade.</span>
+          </label>
+          <p class="user-form-help">
+            Est&aacute; com problemas?
+            <button type="button" class="user-inline-link" onclick="mostrarAviso('Se precisar de ajuda, fale com o suporte em suporte@gopdf.com.br.')">Obter ajuda</button>
+          </p>
+          <p class="user-form-footer">
+            J&aacute; tem uma conta?
+            <button id="user-link-login" type="button" class="user-inline-link">Entrar</button>
+          </p>
+        </form>
+      </div>
+
+      <div id="user-profile-actions" class="user-profile-actions" style="display:none">
+        <button id="user-edit-btn" type="button" class="btn primary">Editar cadastro</button>
+        <button id="user-remove-btn" type="button" class="btn danger">Remover dados</button>
+      </div>
+
+      <p class="user-panel-note">Para assinatura Premium, utilize o fluxo oficial de cadastro e login com backend seguro.</p>
+    </div>
+
+    <button id="updates-toggle" type="button" class="updates-toggle" aria-label="Abrir atualizacoes" aria-expanded="false">
+      <span class="updates-toggle-icon">&#128276;</span>
+      <span id="updates-count" class="updates-count">0</span>
+    </button>
+    <div id="updates-panel" class="updates-panel" style="display:none">
+      <div class="updates-panel-header">
+        <div class="updates-panel-title">
+          <strong>Atualizacoes</strong>
+          <span id="updates-panel-version" class="updates-panel-version">Versao</span>
+        </div>
+        <span id="updates-panel-badge" class="updates-panel-badge">0 itens</span>
+      </div>
+      <div id="updates-list" class="updates-list"></div>
+    </div>
+    <div class="topbar-entry-actions">
+      <button id="topbar-login-entry" type="button" class="topbar-login-entry" onclick="window.location.href='entrar.html?next=index.html'">Entrar</button>
+      <button id="topbar-request-entry" type="button" class="topbar-request-entry" onclick="window.location.href='cadastro.html?next=index.html'">Solicitar acesso</button>
+      <button id="topbar-profile-entry" type="button" class="topbar-login-entry" onclick="window.location.href='perfil.html'" style="display:none">Meu perfil</button>
+      <button id="topbar-logout-entry" type="button" class="topbar-request-entry" style="display:none">Sair</button>
+    </div>
+  </div>
+  </div>
+  <div class="topbar-cover">
+    <div class="topbar-cover-copy">
+    <span class="topbar-cover-kicker">Plataforma documental com posicionamento premium e institucional</span>
+    <h1>Gestao de PDFs com presenca corporativa, clareza operacional e credibilidade.</h1>
+    <p class="topbar-cover-subtext">Junte, converta, organize e trate documentos digitais em uma interface mais sobria, adequada a escritorios, departamentos juridicos, areas administrativas e operacoes empresariais.</p>
+    <p><strong>Solucoes documentais:</strong> ferramentas apresentadas com ordem, sobriedade e leitura executiva para operacoes serias, repetitivas e sensiveis.</p>
+    <div class="topbar-cover-meta">
+      <span id="hero-updated" class="app-updated-badge">Versao</span>
+      <span id="hero-updated" class="app-updated-badge">Atualizado em</span>
+    </div>
+    <div class="topbar-cover-actions">
+      <button type="button" class="btn primary hero-primary-btn" onclick="abrirUnificador()">Enviar documento</button>
+      <button type="button" class="btn atalho hero-secondary-btn" onclick="rolarParaSecao('home-tools-grid')">Conhecer solucoes</button>
+    </div>
+    <div class="topbar-cover-stats">
+      <div class="hero-stat-card hero-trust-pill">
+        <strong>Padrão corporativo</strong>
+      </div>
+      <div class="hero-stat-card hero-trust-pill">
+        <strong>Protecao de arquivos</strong>
+      </div>
+      <div class="hero-stat-card hero-trust-pill">
+        <strong>Compatevel com LGPD</strong>
+      </div>
+      <div class="hero-stat-card hero-trust-pill">
+        <strong>Fluxo profissional</strong>
+      </div>
+    </div>
+    </div>
+    <div class="topbar-visual-card">
+      <div class="topbar-visual-brand topbar-visual-brand-centered">
+        <div class="topbar-visual-icon topbar-visual-icon-large">PDF</div>
+        <div class="topbar-visual-brand-copy topbar-visual-brand-copy-centered">
+          <strong>Envio documental imediato</strong>
+          <span>comece pelo documento, nao pelo cadastro</span>
+        </div>
+      </div>
+      <button type="button" class="topbar-visual-primary" onclick="abrirUnificador()">Selecionar arquivo</button>
+      <p class="topbar-visual-formatos">Formatos aceitos: PDF, DOCX, XLSX, JPG, PNG</p>
+      <div class="topbar-visual-metrics topbar-visual-metrics-cards">
+        <div class="topbar-visual-metric">
+          <strong>Menos fricção</strong>
+          <span>uso orientado à tarefa</span>
+        </div>
+        <div class="topbar-visual-metric">
+          <strong>Mais confianca</strong>
+          <span>linguagem institucional</span>
+        </div>
+        <div class="topbar-visual-metric">
+          <strong>Melhor percepção</strong>
+          <span>interface premium</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div id="overlay-backdrop" class="overlay-backdrop" aria-hidden="true"></div>
+
+<main class="container">
+
+  <!-- MENU PRINCIPAL -->
+  <section id="menu-principal">
+
+    <div class="tool-filter-row" aria-label="Categorias de solucoes">
+      <button type="button" class="hero-category-pill is-active" data-filter="todas" aria-pressed="true" onclick="abrirCategoriaHome('todas')">Todas</button>
+      <button type="button" class="hero-category-pill" data-filter="fluxos" aria-pressed="false" onclick="abrirCategoriaHome('fluxos')">Fluxos de trabalho</button>
+      <button type="button" class="hero-category-pill" data-filter="organizar" aria-pressed="false" onclick="abrirCategoriaHome('organizar')">Organizar PDF</button>
+      <button type="button" class="hero-category-pill" data-filter="otimizar" aria-pressed="false" onclick="abrirCategoriaHome('otimizar')">Otimizar PDF</button>
+      <button type="button" class="hero-category-pill" data-filter="converter" aria-pressed="false" onclick="abrirCategoriaHome('converter')">Converter PDF</button>
+      <button type="button" class="hero-category-pill" data-filter="editar" aria-pressed="false" onclick="abrirCategoriaHome('editar')">Editar PDF</button>
+      <button type="button" class="hero-category-pill" data-filter="seguranca" aria-pressed="false" onclick="abrirCategoriaHome('seguranca')">Seguranca de PDF</button>
+    </div>
+
+    <div id="home-tools-grid" class="tools-grid tools-grid-menu">
+
+      <article class="tool-card active" data-tool-category="todas fluxos organizar" onclick="abrirUnificador()">
+        <div class="tool-icon-wrap tool-monogram">
+          <span>JU</span>
+        </div>
+        <div class="tool-card-body">
+          <h3>Juntar PDF</h3>
+          <p>Consolide pecas, anexos e documentos em um unico arquivo final, com organizacao adequada para uso profissional.</p>
+        </div>
+        <div class="tool-card-arrow">Acessar solucao</div>
+      </article>
+
+      <article class="tool-card active" data-tool-category="todas fluxos organizar" onclick="abrirDividir()">
+        <div class="tool-icon-wrap tool-monogram">
+          <span>DI</span>
+        </div>
+        <div class="tool-card-body">
+          <h3>Dividir PDF</h3>
+          <p>Separe paginas e secoes com precisao para auditoria, analise documental e tramitacao interna.</p>
+        </div>
+        <div class="tool-card-arrow">Acessar solucao</div>
+      </article>
+
+      <article class="tool-card active tool-card-spotlight" data-tool-category="todas converter editar" onclick="abrirTraducaoPremium()">
+        <div class="tool-card-badge new">Novo!</div>
+        <div class="tool-icon-wrap tool-monogram">
+          <span>TR</span>
+        </div>
+        <div class="tool-card-body">
+          <h3>Traduzir PDF</h3>
+          <p>Traduza documentos PDF com foco em leitura, compartilhamento e continuidade de trabalho.</p>
+        </div>
+        <div class="tool-card-arrow">Acessar solucao</div>
+      </article>
+
+      <article class="tool-card active" data-tool-category="todas fluxos otimizar" onclick="abrirCompactar()">
+        <div class="tool-icon-wrap tool-monogram">
+          <span>CO</span>
+        </div>
+        <div class="tool-card-body">
+          <h3>Compactar PDF</h3>
+          <p>Reduza o tamanho dos arquivos mantendo legibilidade e praticidade no envio.</p>
+        </div>
+        <div class="tool-card-arrow">Acessar solucao</div>
+      </article>
+
+      <article class="tool-card active" data-tool-category="todas converter" onclick="abrirImagemParaPDF()">
+        <div class="tool-icon-wrap tool-monogram">
+          <span>IM</span>
+        </div>
+        <div class="tool-card-body">
+          <h3>JPG para PDF</h3>
+          <p>Transforme JPG, PNG e outras imagens em um unico PDF, mantendo a ordem escolhida para envio e arquivo.</p>
+        </div>
+        <div class="tool-card-arrow">Acessar solucao</div>
+      </article>
+
+      <article class="tool-card active" data-tool-category="todas fluxos otimizar converter" onclick="abrirOCR()">
+        <div class="tool-icon-wrap tool-monogram">
+          <span>RE</span>
+        </div>
+        <div class="tool-card-body">
+          <h3>Reconhecimento de Texto</h3>
+          <p>Extraia texto de documentos digitalizados para pesquisa, indexacao e recuperacao de informacao.</p>
+        </div>
+        <div class="tool-card-arrow">Acessar solucao</div>
+      </article>
+
+      <article class="tool-card active" data-tool-category="todas converter" onclick="abrirConverter()">
+        <div class="tool-icon-wrap tool-monogram">
+          <span>PD</span>
+        </div>
+        <div class="tool-card-body">
+          <h3>PDF para Word</h3>
+          <p>Converta documentos em arquivos editaveis para revisao, pareceres e ajustes formais.</p>
+        </div>
+        <div class="tool-card-arrow">Acessar solucao</div>
+      </article>
+
+      <article class="tool-card active" data-tool-category="todas converter" onclick="abrirWordParaPDF()">
+        <div class="tool-icon-wrap tool-monogram">
+          <span>WO</span>
+        </div>
+        <div class="tool-card-body">
+          <h3>Word para PDF</h3>
+          <p>Padronize documentos institucionais em PDF com apresentacao adequada e consistencia visual.</p>
+        </div>
+        <div class="tool-card-arrow">Acessar solucao</div>
+      </article>
+
+      <article class="tool-card active" data-tool-category="todas converter" onclick="abrirExcelParaPDF()">
+        <div class="tool-icon-wrap tool-monogram">
+          <span>EX</span>
+        </div>
+        <div class="tool-card-body">
+          <h3>Excel para PDF</h3>
+          <p>Transforme planilhas em PDFs profissionais para envio, compliance e apresentacao.</p>
+        </div>
+        <div class="tool-card-arrow">Acessar solucao</div>
+      </article>
+
+      <article class="tool-card active" data-tool-category="todas converter" onclick="abrirExcelParaWord()">
+        <div class="tool-icon-wrap tool-monogram">
+          <span>EX</span>
+        </div>
+        <div class="tool-card-body">
+          <h3>Excel para Word</h3>
+          <p>Converta conteudos de planilhas em documentos editaveis para relatorios e analises.</p>
+        </div>
+        <div class="tool-card-arrow">Acessar solucao</div>
+      </article>
+
+      <article class="tool-card active" data-tool-category="todas editar" onclick="abrirEditalPDF()">
+        <div class="tool-icon-wrap tool-monogram">
+          <span>ED</span>
+        </div>
+        <div class="tool-card-body">
+          <h3>Edital PDF</h3>
+          <p>Leia, estruture e resuma editais em fluxo otimizado para licitacoes e compras publicas.</p>
+        </div>
+        <div class="tool-card-arrow">Acessar solucao</div>
+      </article>
+
+      <article class="tool-card active" data-tool-category="todas converter" onclick="abrirPowerPointParaPDF()">
+        <div class="tool-icon-wrap tool-monogram">
+          <span>PO</span>
+        </div>
+        <div class="tool-card-body">
+          <h3>PowerPoint para PDF</h3>
+          <p>Converta apresentacoes em PDF mantendo formato adequado para distribuicao institucional.</p>
+        </div>
+        <div class="tool-card-arrow">Acessar solucao</div>
+      </article>
+
+      <article class="tool-card active" data-tool-category="todas seguranca" onclick="abrirAssinarPDF()">
+        <div class="tool-icon-wrap tool-monogram">
+          <span>AS</span>
+        </div>
+        <div class="tool-card-body">
+          <h3>Assinar PDF</h3>
+          <p>Adicione assinatura digital em documentos com fluxo simples e aparencia profissional.</p>
+        </div>
+        <div class="tool-card-arrow">Acessar solucao</div>
+      </article>
+
+      <article class="tool-card active" data-tool-category="todas fluxos organizar editar" onclick="abrirReorganizarPDF()">
+        <div class="tool-icon-wrap tool-monogram">
+          <span>RE</span>
+        </div>
+        <div class="tool-card-body">
+          <h3>Reorganizar PDF</h3>
+          <p>Reordene paginas e gere versoes finais mais organizadas para protocolo e arquivo.</p>
+        </div>
+        <div class="tool-card-arrow">Acessar solucao</div>
+      </article>
+
+    </div>
+    <p id="home-tools-empty" class="home-tools-empty" style="display:none">Nenhuma ferramenta encontrada para esta catégoria.</p>
+
+  </section>
+
+
+  <!-- JUNTAR PDF -->
+  <section id="unificador" style="display:none">
+
+    <div class="sec-header">
+      <button class="btn-voltar" onclick="voltarMenu()">Menu</button>
+      <div class="sec-header-info">
+        <h2>Juntar PDF</h2>
+        <p id="file-counter" role="status" aria-live="polite">Nenhum arquivo carregado</p>
+      </div>
+    </div>
+
+    <div id="drop-zone" class="drop-zone">
+      <input type="file" id="fileInput" multiple accept="application/pdf,image/*,.zip,.rar,.7z,.tar,.gz,.tgz,.bz2,.xz,application/zip,application/x-zip-compressed,application/x-rar-compressed,application/vnd.rar,application/x-7z-compressed" hidden>
+      <h3>Arraste arquivos, pastas ou compactados aqui</h3>
+      <p>ou selecione abaixo para mesclar arquivos PDF e imagens em um unico documento</p>
+      <div class="drop-buttons">
+        <button onclick="fileInput.click()" class="btn primary">Selecionar Arquivos</button>
+        <button onclick="selecionarPasta()" class="btn primary">Selecionar Pasta</button>
+      </div>
+    </div>
+
+    <!-- area de pastas adicionadas -->
+    <div id="pastas-adicionadas" class="pastas-row"></div>
+
+    <!-- area de arquivos avulsos -->
+    <div id="file-gallery" class="gallery"></div>
+
+    <!-- Painel resultado juntar -->
+    <div id="resultado-juntar" class="resultado-painel" style="display:none">
+      <div class="resultado-preview">
+        <canvas id="preview-juntar"></canvas>
+        <div class="resultado-info">
+          <div id="resultado-juntar-nome" class="resultado-nome"></div>
+          <div id="resultado-juntar-pags" class="resultado-pags"></div>
+        </div>
+      </div>
+      <div class="resultado-acoes">
+        <p class="resultado-label">PDF pronto! O que deseja fazer?</p>
+        <div class="resultado-btns">
+          <button onclick="baixarResultadoJuntar()" class="btn generate">Baixar PDF</button>
+          <button onclick="enviarResultadoParaDividir()" class="btn atalho">Dividir</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Painel resultado pastas -->
+    <div id="resultado-pastas" class="resultado-painel" style="display:none">
+      <div class="resultado-acoes">
+        <p class="resultado-label">PDFs gerados por pasta! O que deseja fazer?</p>
+        <div id="resultado-pastas-btns" class="resultado-btns"></div>
+      </div>
+    </div>
+
+    <div class="fixed-bar">
+      <span id="juntar-info" class="bar-info" role="status" aria-live="polite"></span>
+      <button id="actionBtn" class="btn generate" disabled>CONSOLIDAR PDF</button>
+      <button onclick="limparJuntar()" class="btn danger">Limpar Tudo</button>
+    </div>
+
+  </section>
+
+
+  <!-- DIVIDIR PDF -->
+  <section id="dividir-pdf" style="display:none">
+
+    <div class="sec-header">
+      <button class="btn-voltar" onclick="voltarMenu()">Menu</button>
+      <div class="sec-header-info">
+        <h2>Dividir PDF</h2>
+        <p>Envie um PDF para dividir</p>
+      </div>
+      <div class="sec-atalhos">
+        <span class="sec-atalho-label">Ir para:</span>
+        <button onclick="voltarMenu();abrirUnificador()" class="btn atalho">Juntar</button>
+      </div>
+    </div>
+
+    <div id="split-drop-zone" class="drop-zone">
+      <input type="file" id="splitFileInput" accept="application/pdf" hidden>
+      <h3>Arraste um ou mais PDFs aqui</h3>
+      <p>ou selecione abaixo para separar paginas do documento em novos arquivos PDF</p>
+      <div class="drop-buttons">
+        <button onclick="splitFileInput.click()" class="btn primary">Selecionar PDF</button>
+      </div>
+    </div>
+
+    <div id="split-gallery" class="gallery"></div>
+
+    <div class="file-name-box">
+      <label>Modo de divisao</label>
+      <div class="radio-group">
+
+        <label onclick="mostrarInputDivisao('pages')">
+          <input type="radio" name="splitMode" value="pages">
+          <span>Dividir por quantidade de paginas</span>
+        </label>
+        <div class="input-divisao" id="input-pages" style="display:none">
+          <input type="number" id="pagesPerFile" placeholder="Qtd de paginas por arquivo" min="1">
+        </div>
+
+        <label class="disabled">
+          <input type="radio" name="splitMode" value="size" disabled>
+          <span>Dividir por tamanho (MB)</span>
+          <span class="option-note">Planejado</span>
+        </label>
+        <div class="input-divisao" id="input-size" style="display:none">
+          <input type="number" id="sizePerFile" placeholder="Tamanho maximo em MB" min="1">
+        </div>
+
+        <label onclick="mostrarInputDivisao('odd')">
+          <input type="radio" name="splitMode" value="odd">
+          <span>Somente paginas impares</span>
+        </label>
+
+        <label onclick="mostrarInputDivisao('even')">
+          <input type="radio" name="splitMode" value="even">
+          <span>Somente paginas pares</span>
+        </label>
+
+      </div>
+    </div>
+
+    <!-- Painel resultado dividir -->
+    <div id="resultado-dividir" class="resultado-painel" style="display:none">
+      <div class="resultado-acoes">
+        <p class="resultado-label">Divisao concluida! O que deseja fazer?</p>
+        <div class="resultado-btns">
+          <button onclick="baixarResultadosDividir()" class="btn generate">Baixar Arquivos</button>
+          <button onclick="enviarPartsParaJuntar()" class="btn atalho">Juntar partes</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="fixed-bar">
+      <span id="dividir-info" class="bar-info" role="status" aria-live="polite"></span>
+      <button onclick="dividirPDF()" class="btn generate">DIVIDIR PDF</button>
+      <button onclick="limparDividir()" class="btn danger">Limpar Tudo</button>
+    </div>
+
+  </section>
+
+
+  <!-- OCR -->
+  <section id="ocr-section" style="display:none">
+
+    <div class="unificador-header">
+      <button class="btn-voltar" onclick="voltarMenu()">Voltar</button>
+      <div>
+        <h2>Reconhecimento de Texto (OCR)</h2>
+        <p>Extrair texto de PDF</p>
+      </div>
+    </div>
+
+    <div id="ocr-drop-zone" class="drop-zone">
+      <input type="file" id="ocrInput" accept="application/pdf" multiple hidden>
+      <h3>Arraste um ou mais PDFs aqui</h3>
+      <p>ou selecione abaixo para gerar um PDF pesquisavel e copiar o texto reconhecido</p>
+      <div class="drop-buttons">
+        <button onclick="ocrInput.click()" class="btn primary">Selecionar PDFs</button>
+      </div>
+    </div>
+
+    <div id="ocr-gallery" class="gallery"></div>
+
+    <div id="ocr-status" role="status" aria-live="polite"></div>
+
+    <div id="ocr-resultado-box" style="display:none">
+      <div class="resultado-acoes" style="margin-top:20px">
+        <p class="resultado-label">OCR concluido. Baixe os arquivos pesquisaveis ou copie o texto.</p>
+        <div class="resultado-btns">
+          <button onclick="baixarResultadosOCR()" class="btn generate">Baixar OCR</button>
+          <button onclick="copiarTexto()" class="btn atalho">Copiar Texto</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="fixed-bar">
+      <span id="ocr-info" class="bar-info" role="status" aria-live="polite"></span>
+      <button onclick="reconhecerTexto()" class="btn generate">GERAR PDF PESQUISAVEL</button>
+      <button onclick="limparOCR()" class="btn danger">Limpar Tudo</button>
+
+    </div>
+
+  </section>
+
+
+  <!-- COMPACTAR PDF -->
+  <section id="compactar-section" style="display:none">
+
+    <div class="sec-header">
+      <button class="btn-voltar" onclick="voltarMenu()">Menu</button>
+      <div class="sec-header-info">
+        <h2>Compactar PDF</h2>
+        <p id="compactar-counter" role="status" aria-live="polite">Nenhum arquivo carregado</p>
+      </div>
+    </div>
+
+    <div id="compactar-drop-zone" class="drop-zone">
+      <input type="file" id="compactarInput" accept="application/pdf" multiple hidden>
+      <h3>Arraste PDFs ou pastas aqui</h3>
+      <p>ou selecione abaixo para aplicar a compressao aos arquivos carregados</p>
+      <div class="drop-buttons">
+        <button onclick="compactarInput.click()" class="btn primary">Selecionar Arquivos</button>
+        <button onclick="selecionarPastaCompactar()" class="btn primary">Selecionar Pasta</button>
+      </div>
+    </div>
+
+    <div id="compactar-lista" class="gallery"></div>
+
+    <div class="file-name-box">
+      <label>Modo de compactacao</label>
+      <div class="radio-group">
+
+        <label>
+          <input type="radio" name="compactMode" value="normal" checked>
+          Normal - reducao leve, mantem qualidade
+        </label>
+
+        <label>
+          <input type="radio" name="compactMode" value="extrema">
+          Extrema - tenta reduzir pelo menos 70% quando tecnicamente viavel
+        </label>
+
+      </div>
+    </div>
+
+    <div id="compactar-status" role="status" aria-live="polite"></div>
+
+    <!-- Painel resultado compactar -->
+    <div id="resultado-compactar" class="resultado-painel" style="display:none">
+      <div class="resultado-acoes">
+        <p class="resultado-label">Compactacao concluida! O que deseja fazer?</p>
+        <div class="resultado-btns">
+          <button onclick="baixarResultadosCompactar()" class="btn generate">Baixar Arquivos</button>
+          <button onclick="enviarCompactadosParaJuntar()" class="btn atalho">Juntar PDFs</button>
+          <button onclick="enviarCompactadosParaDividir()" class="btn atalho">Dividir PDF</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="fixed-bar">
+      <span id="compactar-info" class="bar-info" role="status" aria-live="polite"></span>
+      <button onclick="compactarPDFs()" class="btn generate">COMPACTAR PDF</button>
+      <button onclick="limparCompactar()" class="btn danger">Limpar Tudo</button>
+ 
+    </div>
+
+  </section>
+
+  <!-- IMAGEM PARA PDF -->
+  <section id="imagempdf-section" style="display:none">
+
+    <div class="unificador-header">
+      <button class="btn-voltar" onclick="voltarMenu()">Voltar</button>
+      <div>
+        <h2>JPG para PDF</h2>
+        <p id="imagempdf-counter">Nenhuma imagem carregada</p>
+      </div>
+    </div>
+
+    <div id="imagempdf-drop-zone" class="drop-zone">
+      <input type="file" id="imagempdfInput" accept="image/*,.png,.jpg,.jpeg,.webp,.bmp,.gif" multiple hidden>
+      <h3>Arraste imagens aqui</h3>
+      <p>ou selecione abaixo para montar um unico PDF com fotos, comprovantes e capturas</p>
+      <div class="drop-buttons">
+        <button onclick="imagempdfInput.click()" class="btn primary">Selecionar Imagens</button>
+      </div>
+    </div>
+
+    <div id="imagempdf-gallery" class="imagempdf-gallery"></div>
+
+    <div class="file-name-box file-name-box-inline">
+      <label for="imagempdfFileName">Nome do PDF final</label>
+      <input type="text" id="imagempdfFileName" placeholder="Ex.: imagens-unificadas" maxlength="80" spellcheck="false">
+      <p class="field-hint">As imagens serao colocadas no PDF na mesma ordem em que aparecem na lista.</p>
+    </div>
+
+    <div id="imagempdf-status" role="status" aria-live="polite"></div>
+
+    <div id="resultado-imagempdf" class="resultado-painel" style="display:none">
+      <div class="resultado-acoes">
+        <p class="resultado-label">PDF gerado com sucesso.</p>
+        <div class="resultado-btns">
+          <button onclick="baixarResultadoImagemPDF()" class="btn generate">Baixar PDF</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="fixed-bar">
+      <span id="imagempdf-info" class="bar-info" role="status" aria-live="polite"></span>
+      <button onclick="converterImagensParaPDF()" class="btn generate">GERAR PDF</button>
+      <button onclick="limparImagemPDF()" class="btn danger">Limpar Tudo</button>
+    </div>
+
+  </section>
+
+  <!-- CONVERTER PDF PARA WORD -->
+  <section id="converter-section" style="display:none">
+
+    <div class="unificador-header">
+      <button class="btn-voltar" onclick="voltarMenu()">Voltar</button>
+      <div>
+        <h2>PDF para Word</h2>
+        <p>Converta seu PDF em documento editavel</p>
+      </div>
+    </div>
+
+    <div id="converter-drop-zone" class="drop-zone">
+      <input type="file" id="converterInput" accept="application/pdf" hidden>
+      <h3>Arraste um ou mais PDFs aqui</h3>
+      <p>ou selecione abaixo para extrair o conteudo do PDF em formato Word</p>
+      <div class="drop-buttons">
+        <button onclick="converterInput.click()" class="btn primary">Selecionar PDF</button>
+      </div>
+    </div>
+
+    <div id="converter-gallery" class="gallery"></div>
+
+    <div id="converter-status" role="status" aria-live="polite"></div>
+
+    <!-- Painel resultado converter -->
+    <div id="resultado-converter" class="resultado-painel" style="display:none">
+      <div class="resultado-acoes">
+        <p class="resultado-label">Conversao concluida! O que deseja fazer?</p>
+        <div class="resultado-btns">
+          <button onclick="baixarResultadoWord()" class="btn generate">Baixar Word (.docx)</button>
+          <button onclick="enviarConverterParaJuntar()" class="btn atalho">Juntar PDF</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="fixed-bar">
+      <span id="converter-info" class="bar-info" role="status" aria-live="polite"></span>
+      <button onclick="converterParaWord()" class="btn generate">CONVERTER PARA WORD</button>
+      <button onclick="limparConverter()" class="btn danger">Limpar Tudo</button>
+    </div>
+
+  </section>
+
+  <!-- TRADUZIR PDF -->
+  <section id="tradutor-section" style="display:none">
+    <div class="unificador-header">
+      <button class="btn-voltar" onclick="voltarMenu()">Voltar</button>
+      <div>
+        <h2>Traduzir PDF</h2>
+        <p>Traduza o texto do documento para outro idioma e gere um novo PDF.</p>
+      </div>
+    </div>
+
+    <div id="tradutor-drop-zone" class="drop-zone">
+      <input type="file" id="tradutorInput" accept="application/pdf" hidden>
+      <h3>Arraste um PDF aqui</h3>
+      <p>ou selecione abaixo para extrair o texto e gerar a versao traduzida</p>
+      <div class="drop-buttons">
+        <button onclick="tradutorInput.click()" class="btn primary">Selecionar PDF</button>
+      </div>
+    </div>
+
+    <div id="tradutor-info-box" class="thumb-info-box" style="display:none">
+      <div id="tradutor-nome" class="resultado-nome"></div>
+      <div id="tradutor-meta" class="resultado-nome"></div>
+    </div>
+
+    <div id="tradutor-opcoes" class="tool-grid-2">
+      <div class="file-name-box">
+        <label for="tradutor-idioma-origem">Idioma de origem</label>
+        <select id="tradutor-idioma-origem">
+          <option value="auto" selected>Detectar automaticamente</option>
+          <option value="pt">Portugues</option>
+          <option value="en">Ingles</option>
+          <option value="es">Espanhol</option>
+          <option value="fr">Frances</option>
+          <option value="de">Alemao</option>
+          <option value="it">Italiano</option>
+        </select>
+      </div>
+      <div class="file-name-box">
+        <label for="tradutor-idioma-destino">Idioma de destino</label>
+        <select id="tradutor-idioma-destino">
+          <option value="pt">Portugues</option>
+          <option value="en" selected>Ingles</option>
+          <option value="es">Espanhol</option>
+          <option value="fr">Frances</option>
+          <option value="de">Alemao</option>
+          <option value="it">Italiano</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="tradutor-status" role="status" aria-live="polite"></div>
+
+    <div id="tradutor-preview" class="analysis-card" style="display:none">
+      <h3>Previa da traducao</h3>
+      <pre id="tradutor-preview-text"></pre>
+    </div>
+
+    <div id="resultado-tradutor" class="resultado-painel" style="display:none">
+      <div class="resultado-acoes">
+        <p class="resultado-label">Traducao concluida! O que deseja fazer?</p>
+        <div class="resultado-btns">
+          <button onclick="baixarResultadoTraducaoPDF()" class="btn generate">Baixar PDF traduzido</button>
+          <button onclick="baixarResultadoTraducaoTexto()" class="btn atalho">Baixar texto (.txt)</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="fixed-bar">
+      <span id="tradutor-bar-info" class="bar-info"></span>
+      <button onclick="traduzirPDF()" class="btn generate">TRADUZIR PDF</button>
+      <button onclick="limparTradutorPDF()" class="btn danger">Limpar Tudo</button>
+    </div>
+  </section>
+
+  <!-- WORD PARA PDF -->
+  <section id="wordpdf-section" style="display:none">
+    <div class="unificador-header">
+      <button class="btn-voltar" onclick="voltarMenu()">Voltar</button>
+      <div>
+        <h2>Word para PDF</h2>
+        <p>Converta seu documento Word em PDF</p>
+      </div>
+    </div>
+    <div id="wordpdf-drop-zone" class="drop-zone">
+      <input type="file" id="wordpdfInput" accept=".doc,.docx,.odt,.rtf" hidden>
+      <h3>Arraste o arquivo Word aqui</h3>
+      <p>ou selecione abaixo para converter o documento Word em PDF</p>
+      <div class="drop-buttons">
+        <button onclick="wordpdfInput.click()" class="btn primary">Selecionar Word (.docx)</button>
+      </div>
+    </div>
+    <div id="wordpdf-info-box" class="thumb-info-box" style="display:none">
+      <div id="wordpdf-nome" class="resultado-nome"></div>
+    </div>
+    <div id="wordpdf-status" role="status" aria-live="polite"></div>
+    <div id="resultado-wordpdf" class="resultado-painel" style="display:none">
+      <div class="resultado-acoes">
+        <p class="resultado-label">Conversao concluida! O que deseja fazer?</p>
+        <div class="resultado-btns">
+          <button onclick="baixarResultadoWordPDF()" class="btn generate">Baixar PDF</button>
+          <button onclick="enviarWordPDFParaDividir()" class="btn atalho">Dividir PDF</button>
+          <button onclick="enviarWordPDFParaJuntar()" class="btn atalho">Juntar PDF</button>
+        </div>
+      </div>
+    </div>
+    <div class="fixed-bar">
+      <span id="wordpdf-bar-info" class="bar-info"></span>
+      <button onclick="converterWordParaPDF()" class="btn generate">CONVERTER PARA PDF</button>
+      <button onclick="limparWordPDF()" class="btn danger">Limpar Tudo</button>
+    </div>
+  </section>
+
+  <!-- EXCEL PARA PDF -->
+  <section id="excelpdf-section" style="display:none">
+    <div class="unificador-header">
+      <button class="btn-voltar" onclick="voltarMenu()">Voltar</button>
+      <div>
+        <h2>Excel para PDF</h2>
+        <p>Converta sua planilha Excel em PDF</p>
+      </div>
+    </div>
+    <div id="excelpdf-drop-zone" class="drop-zone">
+      <input type="file" id="excelpdfInput" accept=".xls,.xlsx,.xlsm,.xlsb,.csv,.ods" hidden>
+      <h3>Arraste o arquivo Excel aqui</h3>
+      <p>ou selecione abaixo para converter a planilha em PDF</p>
+      <div class="drop-buttons">
+        <button onclick="excelpdfInput.click()" class="btn primary">Selecionar Excel (.xlsx)</button>
+      </div>
+    </div>
+    <div id="excelpdf-info-box" class="thumb-info-box" style="display:none">
+      <div id="excelpdf-nome" class="resultado-nome"></div>
+    </div>
+    <div id="excelpdf-status" role="status" aria-live="polite"></div>
+    <div id="resultado-excelpdf" class="resultado-painel" style="display:none">
+      <div class="resultado-acoes">
+        <p class="resultado-label">Conversao concluida! O que deseja fazer?</p>
+        <div class="resultado-btns">
+          <button onclick="baixarResultadoExcelPDF()" class="btn generate">Baixar PDF</button>
+          <button onclick="enviarExcelPDFParaDividir()" class="btn atalho">Dividir PDF</button>
+          <button onclick="enviarExcelPDFParaJuntar()" class="btn atalho">Juntar PDF</button>
+        </div>
+      </div>
+    </div>
+    <div class="fixed-bar">
+      <span id="excelpdf-bar-info" class="bar-info"></span>
+      <button onclick="converterExcelParaPDF()" class="btn generate">CONVERTER PARA PDF</button>
+      <button onclick="limparExcelPDF()" class="btn danger">Limpar Tudo</button>
+    </div>
+  </section>
+
+  <!-- EXCEL PARA WORD -->
+  <section id="excelword-section" style="display:none">
+    <div class="unificador-header">
+      <button class="btn-voltar" onclick="voltarMenu()">Voltar</button>
+      <div>
+        <h2>Excel para Word</h2>
+        <p>Converta sua planilha Excel em documento Word</p>
+      </div>
+    </div>
+    <div id="excelword-drop-zone" class="drop-zone">
+      <input type="file" id="excelwordInput" accept=".xls,.xlsx,.xlsm,.xlsb,.csv,.ods" hidden>
+      <h3>Arraste o arquivo Excel aqui</h3>
+      <p>ou selecione abaixo para converter a planilha em Word</p>
+      <div class="drop-buttons">
+        <button onclick="excelwordInput.click()" class="btn primary">Selecionar Excel (.xlsx)</button>
+      </div>
+    </div>
+    <div id="excelword-info-box" class="thumb-info-box" style="display:none">
+      <div id="excelword-nome" class="resultado-nome"></div>
+    </div>
+    <div id="excelword-status" role="status" aria-live="polite"></div>
+    <div id="resultado-excelword" class="resultado-painel" style="display:none">
+      <div class="resultado-acoes">
+        <p class="resultado-label">Conversao concluida! O que deseja fazer?</p>
+        <div class="resultado-btns">
+          <button onclick="baixarResultadoExcelWord()" class="btn generate">Baixar Word (.docx)</button>
+        </div>
+      </div>
+    </div>
+    <div class="fixed-bar">
+      <span id="excelword-bar-info" class="bar-info"></span>
+      <button onclick="converterExcelParaWord()" class="btn generate">CONVERTER PARA WORD</button>
+      <button onclick="limparExcelWord()" class="btn danger">Limpar Tudo</button>
+    </div>
+  </section>
+
+  <!-- REORGANIZAR PDF -->
+  <section id="reorganizar-section" style="display:none">
+    <div class="sec-header">
+      <button class="btn-voltar" onclick="voltarMenu()">Menu</button>
+      <div class="sec-header-info">
+        <h2>Reorganizar PDF</h2>
+        <p>Reordene as paginas do documento e gere um novo PDF organizado</p>
+      </div>
+      <div class="sec-atalhos">
+        <span class="sec-atalho-label">Ir para:</span>
+        <button onclick="voltarMenu();abrirDividir()" class="btn atalho">Dividir</button>
+        <button onclick="voltarMenu();abrirUnificador()" class="btn atalho">Juntar</button>
+      </div>
+    </div>
+
+    <div id="reorganizar-drop-zone" class="drop-zone">
+      <input type="file" id="reorganizarInput" accept="application/pdf" hidden>
+      <h3>Arraste o PDF aqui</h3>
+      <p>Depois clique na miniatura para abrir as paginas e arrastar para a ordem desejada.</p>
+      <div class="drop-buttons">
+        <button onclick="reorganizarInput.click()" class="btn primary">Selecionar PDF</button>
+      </div>
+    </div>
+
+    <div id="reorganizar-gallery" class="gallery"></div>
+
+    <div class="tool-note-card">
+      <strong>Fluxo rapido</strong>
+      <p>Carregue o arquivo, abra a miniatura para reorganizar as paginas e depois gere o novo PDF com a ordem salva.</p>
+    </div>
+
+    <div id="reorganizar-status" role="status" aria-live="polite"></div>
+
+    <div id="resultado-reorganizar" class="resultado-painel" style="display:none">
+      <div class="resultado-acoes">
+        <p class="resultado-label">PDF reorganizado com sucesso.</p>
+        <div class="resultado-btns">
+          <button onclick="baixarResultadoReorganizar()" class="btn generate">Baixar PDF reorganizado</button>
+          <button onclick="restaurarOrdemReorganizar()" class="btn atalho">Restaurar ordem original</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="fixed-bar">
+      <span id="reorganizar-info" class="bar-info" role="status" aria-live="polite"></span>
+      <button onclick="abrirModalReorganizacao()" class="btn atalho">Abrir paginas</button>
+      <button onclick="gerarPDFReorganizado()" class="btn generate">GERAR PDF REORGANIZADO</button>
+      <button onclick="limparReorganizarPDF()" class="btn danger">Limpar Tudo</button>
+    </div>
+  </section>
+
+  <!-- ASSINAR PDF -->
+  <section id="assinar-section" style="display:none">
+    <div class="sec-header">
+      <button class="btn-voltar" onclick="voltarMenu()">Menu</button>
+      <div class="sec-header-info">
+        <h2>Assinar PDF</h2>
+        <p>Assine com certificado digital A1 (.p12 ou .pfx) diretamente no navegador</p>
+      </div>
+    </div>
+
+    <div class="sign-toolbar" role="toolbar" aria-label="Acoes de assinatura digital">
+      <button id="sign-action-sign" type="button" class="sign-mode-btn is-active" onclick="selecionarModoAssinatura('sign')">Assinar Digitalmente</button>
+      <button id="sign-action-timestamp" type="button" class="sign-mode-btn" onclick="selecionarModoAssinatura('timestamp')">Marcador de hora</button>
+      <button id="sign-action-validate" type="button" class="sign-mode-btn" onclick="validarAssinaturasPDF()">Validar todas as assinaturas</button>
+      <button id="sign-action-certify-visible" type="button" class="sign-mode-btn" onclick="selecionarModoAssinatura('certify-visible')">Certificar (assinatura visivel)</button>
+      <button id="sign-action-certify-invisible" type="button" class="sign-mode-btn" onclick="selecionarModoAssinatura('certify-invisible')">Certificar (assinatura invisivel)</button>
+    </div>
+
+    <div class="tool-grid-2">
+      <div class="tool-grid-stack">
+        <div id="assinar-drop-zone" class="drop-zone">
+          <input type="file" id="assinarPdfInput" accept="application/pdf" hidden>
+          <h3>PDF para assinatura</h3>
+          <p>Carregue o documento que recebera a assinatura ou certificacao.</p>
+          <div class="drop-buttons">
+            <button onclick="assinarPdfInput.click()" class="btn primary">Selecionar PDF</button>
+          </div>
+        </div>
+
+        <div id="assinar-pdf-box" class="thumb-info-box" style="display:none">
+          <div id="assinar-pdf-nome" class="resultado-nome"></div>
+          <div id="assinar-pdf-meta" class="resultado-pags"></div>
+        </div>
+
+        <div class="upload-mini-card">
+          <input type="file" id="assinarCertInput" accept=".p12,.pfx,application/x-pkcs12" hidden>
+          <div class="upload-mini-card-copy">
+            <strong>Certificado digital</strong>
+            <p>Use um certificado A1 nos formatos `.p12` ou `.pfx`.</p>
+          </div>
+          <button type="button" class="btn atalho" onclick="assinarCertInput.click()">Selecionar certificado</button>
+        </div>
+
+        <div id="assinar-cert-box" class="thumb-info-box" style="display:none">
+          <div id="assinar-cert-nome" class="resultado-nome"></div>
+          <div id="assinar-cert-meta" class="resultado-pags"></div>
+        </div>
+      </div>
+
+      <div class="tool-grid-stack">
+        <div class="file-name-box">
+          <label for="assinarCertSenha">Senha do certificado</label>
+          <input id="assinarCertSenha" type="password" placeholder="Digite a senha do certificado digital">
+
+          <label for="assinarMotivo">Motivo da assinatura</label>
+          <input id="assinarMotivo" type="text" placeholder="Ex.: Aprovacao, aceite, ciencia">
+
+          <label for="assinarLocal">Local</label>
+          <input id="assinarLocal" type="text" placeholder="Ex.: Rio Branco - AC">
+
+          <label for="assinarContato">Contato</label>
+          <input id="assinarContato" type="text" placeholder="Ex.: email ou telefone de referencia">
+
+          <div class="tool-note-inline">
+            <strong>Modo atual:</strong>
+            <span id="assinar-modo-label">Assinatura digital visivel com data e hora locais.</span>
+          </div>
+        </div>
+
+        <div id="assinar-status" role="status" aria-live="polite"></div>
+
+        <div id="assinar-validacao" class="resultado-painel" style="display:none">
+          <div class="resultado-acoes">
+            <p class="resultado-label">Analise local do PDF</p>
+            <div id="assinar-validacao-texto" class="analysis-pre"></div>
+          </div>
+        </div>
+
+        <div id="assinar-icp-panel" class="resultado-painel" style="display:none">
+          <div class="resultado-acoes">
+            <p class="resultado-label">Validacao ICP-Brasil</p>
+            <div class="sign-icp-grid">
+              <div class="sign-icp-hash-box">
+                <span class="sign-icp-label">Arquivo analisado</span>
+                <strong id="assinar-icp-file">-</strong>
+                <span class="sign-icp-label">SHA-256</span>
+                <code id="assinar-icp-hash">-</code>
+                <button id="assinar-icp-open-iti" type="button" class="btn atalho">Abrir verificador ITI</button>
+              </div>
+
+              <label for="assinar-icp-status">Resultado no ITI</label>
+              <select id="assinar-icp-status">
+                <option value="pending">Selecione o resultado</option>
+                <option value="aprovado">Aprovado</option>
+                <option value="reprovado">Reprovado</option>
+                <option value="indeterminado">Indeterminado</option>
+              </select>
+
+              <label for="assinar-icp-protocolo">Protocolo (opcional)</label>
+              <input id="assinar-icp-protocolo" type="text" placeholder="Ex.: ITI-2026-000123">
+
+              <label for="assinar-icp-relatorio-url">URL do relatorio (opcional)</label>
+              <input id="assinar-icp-relatorio-url" type="url" placeholder="https://...">
+
+              <label for="assinar-icp-notes">Observacoes (opcional)</label>
+              <textarea id="assinar-icp-notes" rows="3" placeholder="Observacoes sobre a validacao oficial no ITI"></textarea>
+
+              <div class="resultado-btns">
+                <button id="assinar-icp-save-btn" type="button" class="btn generate">Salvar validacao ICP-Brasil</button>
+                <button id="assinar-icp-history-btn" type="button" class="btn atalho">Atualizar historico</button>
+              </div>
+            </div>
+            <div id="assinar-icp-feedback" class="sign-icp-feedback"></div>
+            <div id="assinar-icp-history" class="sign-icp-history"></div>
+          </div>
+        </div>
+
+        <div id="resultado-assinar" class="resultado-painel" style="display:none">
+          <div class="resultado-acoes">
+            <p class="resultado-label">Documento assinado com sucesso.</p>
+            <div class="resultado-btns">
+              <button onclick="baixarResultadoAssinatura()" class="btn generate">Baixar PDF assinado</button>
+              <button onclick="validarAssinaturasPDF()" class="btn atalho">Validar assinatura</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fixed-bar">
+      <span id="assinar-bar-info" class="bar-info" role="status" aria-live="polite"></span>
+      <button onclick="executarAcaoAssinatura()" class="btn generate">PROCESSAR ASSINATURA</button>
+      <button onclick="limparAssinarPDF()" class="btn danger">Limpar Tudo</button>
+    </div>
+  </section>
+
+  <!-- EDITAL PDF -->
+  <section id="edital-section" style="display:none">
+    <div class="sec-header">
+      <button class="btn-voltar" onclick="voltarMenu()">Menu</button>
+      <div class="sec-header-info">
+        <h2>Edital PDF</h2>
+        <p>Leia o edital, extraia datas, valores e gere um resumo operacional</p>
+      </div>
+    </div>
+
+    <div id="edital-drop-zone" class="drop-zone">
+      <input type="file" id="editalInput" accept="application/pdf" hidden>
+      <h3>Arraste o edital em PDF aqui</h3>
+      <p>O sistema vai ler o texto, identificar datas, valores e palavras-chave importantes.</p>
+      <div class="drop-buttons">
+        <button onclick="editalInput.click()" class="btn primary">Selecionar edital</button>
+      </div>
+    </div>
+
+    <div id="edital-info-box" class="thumb-info-box" style="display:none">
+      <div id="edital-nome" class="resultado-nome"></div>
+      <div id="edital-meta" class="resultado-pags"></div>
+    </div>
+
+    <div id="edital-status" role="status" aria-live="polite"></div>
+
+    <div id="resultado-edital" class="resultado-painel" style="display:none">
+      <div class="analysis-stats-grid">
+        <div class="analysis-stat-card">
+          <span class="analysis-stat-label">Paginas</span>
+          <strong id="edital-stat-paginas">0</strong>
+        </div>
+        <div class="analysis-stat-card">
+          <span class="analysis-stat-label">Datas encontradas</span>
+          <strong id="edital-stat-datas">0</strong>
+        </div>
+        <div class="analysis-stat-card">
+          <span class="analysis-stat-label">Valores</span>
+          <strong id="edital-stat-valores">0</strong>
+        </div>
+        <div class="analysis-stat-card">
+          <span class="analysis-stat-label">Palavras-chave</span>
+          <strong id="edital-stat-topicos">0</strong>
+        </div>
+      </div>
+
+      <div class="analysis-cards-grid">
+        <div class="analysis-card">
+          <h3>Resumo executivo</h3>
+          <div id="edital-resumo-texto" class="analysis-pre"></div>
+        </div>
+        <div class="analysis-card">
+          <h3>Datas identificadas</h3>
+          <div id="edital-datas-list" class="analysis-list"></div>
+        </div>
+        <div class="analysis-card">
+          <h3>Valores encontrados</h3>
+          <div id="edital-valores-list" class="analysis-list"></div>
+        </div>
+        <div class="analysis-card">
+          <h3>Tópicos e alertas</h3>
+          <div id="edital-topicos-list" class="analysis-list"></div>
+        </div>
+      </div>
+
+      <div class="resultado-acoes">
+        <div class="resultado-btns">
+          <button onclick="copiarResumoEdital()" class="btn atalho">Copiar resumo</button>
+          <button onclick="baixarResumoEdital()" class="btn generate">Baixar resumo (.txt)</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="fixed-bar">
+      <span id="edital-bar-info" class="bar-info" role="status" aria-live="polite"></span>
+      <button onclick="analisarEditalPDF()" class="btn generate">ANALISAR EDITAL</button>
+      <button onclick="limparEditalPDF()" class="btn danger">Limpar Tudo</button>
+    </div>
+  </section>
+
+  <!-- POWERPOINT PARA PDF -->
+  <section id="powerpoint-section" style="display:none">
+    <div class="sec-header">
+      <button class="btn-voltar" onclick="voltarMenu()">Menu</button>
+      <div class="sec-header-info">
+        <h2>PowerPoint para PDF</h2>
+        <p>Converta `.pptx` e `.ppsx` para um PDF baseado no texto dos slides</p>
+      </div>
+    </div>
+
+    <div id="powerpoint-drop-zone" class="drop-zone">
+      <input type="file" id="powerpointInput" accept=".pptx,.ppsx,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/vnd.openxmlformats-officedocument.presentationml.slideshow" hidden>
+      <h3>Arraste a apresentacao aqui</h3>
+      <p>Esta versao converte o conteudo textual dos slides para PDF e organiza um slide por pagina.</p>
+      <div class="drop-buttons">
+        <button onclick="powerpointInput.click()" class="btn primary">Selecionar PowerPoint</button>
+      </div>
+    </div>
+
+    <div id="powerpoint-info-box" class="thumb-info-box" style="display:none">
+      <div id="powerpoint-nome" class="resultado-nome"></div>
+      <div id="powerpoint-meta" class="resultado-pags"></div>
+    </div>
+
+    <div id="powerpoint-status" role="status" aria-live="polite"></div>
+
+    <div class="file-name-box">
+      <label>Modo de saída</label>
+      <div class="tool-note-inline">
+        <strong>Modo texto:</strong>
+        <span>ideal para preservar o conteudo dos slides quando a fidelidade visual total ainda nao estiver disponível no navegador.</span>
+      </div>
+    </div>
+
+    <div id="resultado-powerpoint" class="resultado-painel" style="display:none">
+      <div class="analysis-card">
+        <h3>Resumo da apresentacao</h3>
+        <div id="powerpoint-preview-list" class="analysis-list"></div>
+      </div>
+      <div class="resultado-acoes">
+        <div class="resultado-btns">
+          <button onclick="baixarResultadoPowerPointPDF()" class="btn generate">Baixar PDF</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="fixed-bar">
+      <span id="powerpoint-bar-info" class="bar-info" role="status" aria-live="polite"></span>
+      <button onclick="converterPowerPointParaPDF()" class="btn generate">CONVERTER PARA PDF</button>
+      <button onclick="limparPowerPointPDF()" class="btn danger">Limpar Tudo</button>
+    </div>
+  </section>
+
+  <!-- JUNTAR PASTAS -->
+  <section id="juntarpastas-section" style="display:none">
+
+    <div class="unificador-header">
+      <button class="btn-voltar" onclick="voltarMenu()">Voltar</button>
+      <div>
+        <h2>Juntar Pastas</h2>
+        <p>Cada pasta gera um PDF separado. Gratuito: ate 35 arquivos por pasta e 150 MB totais (sem subpastas). Premium: ate 500 arquivos por pasta e 2 GB totais, com subpastas e lote.</p>
+      </div>
+    </div>
+
+    <div id="pastas-lista"></div>
+
+    <div class="pastas-adicionar" id="pastas-adicionar-btn">
+      <input type="file" id="pastaInput" webkitdirectory hidden>
+      <input type="file" id="pastaCompactadoInput" accept=".zip,.rar,.7z,.tar,.gz,.tgz,.bz2,.xz,application/zip,application/x-zip-compressed,application/x-rar-compressed,application/vnd.rar,application/x-7z-compressed" hidden>
+      <button onclick="adicionarPasta()" class="btn primary" id="btn-add-pasta">+ Adicionar Pasta</button>
+      <button onclick="adicionarCompactadoJuntarPastas()" class="btn atalho" id="btn-add-compactado">+ Adicionar Compactado</button>
+      <span id="pastas-contador" style="font-size:13px;color:#6b7280;margin-left:12px"></span>
+    </div>
+
+    <div id="juntarpastas-status" role="status" aria-live="polite"></div>
+
+    <div id="resultado-juntarpastas" class="resultado-painel" style="display:none">
+      <div class="resultado-acoes">
+        <p class="resultado-label">PDFs gerados! Baixe cada um separadamente.</p>
+        <div id="resultado-juntarpastas-btns" class="resultado-btns"></div>
+      </div>
+    </div>
+
+    <div class="fixed-bar">
+      <span id="juntarpastas-info" class="bar-info" role="status" aria-live="polite"></span>
+      <button onclick="limparJuntarPastas()" class="btn danger">Limpar Tudo</button>
+      <button onclick="gerarPDFsDasPastas()" class="btn generate">GERAR PDFs DAS PASTAS</button>
+    </div>
+
+  </section>
+
+  <section id="marketing-footer" class="marketing-footer-shell homepage-sections">
+    <section id="home-flow" class="institutional-section institutional-section-split">
+      <div class="institutional-copy">
+        <span class="institutional-kicker">Fluxo operacional</span>
+        <h2>Uma jornada mais compativel com contextos juridicos e corporativos.</h2>
+        <p>O redesenho substitui o tom promocional comum por uma presença mais disciplinada. Isso melhora percepção de seriedade, reduz ruído visual e reforça competência antes mesmo do uso efetivo.</p>
+      </div>
+      <div class="journey-stack">
+        <article class="journey-card">
+          <span class="journey-step">01</span>
+          <strong>Envio do documento</strong>
+          <p>A interação comeca pela tarefa principal, respeitando a urgência do usuario.</p>
+        </article>
+        <article class="journey-card">
+          <span class="journey-step">02</span>
+          <strong>Escolha da operacao</strong>
+          <p>As opcoes aparecem com taxonomia mais limpa e leitura objetiva.</p>
+        </article>
+        <article class="journey-card">
+          <span class="journey-step">03</span>
+          <strong>Resultado e continuidade</strong>
+          <p>O cadastro é reservado ao momento em que há valor percebido.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="home-sectors" class="institutional-section institutional-section-split">
+      <div class="institutional-copy">
+        <span class="institutional-kicker">Setores e credibilidade</span>
+        <h2>Identidade mais adequada para escritórios, departamentos e estruturas administrativas.</h2>
+        <p>O layout premium-corporativo nao depende de excesso visual. Ele depende de hierarquia, tipografia, respiro, linguagem sóbria e sinais claros de legitimidade institucional.</p>
+      </div>
+      <div class="stats-board">
+        <article class="metric-card">
+          <strong>Acesse o site</strong>
+          <span>Entre agora e use as ferramentas de PDF em poucos cliques.</span>
+        </article>
+        <article class="metric-card">
+          <strong>Teste na prática</strong>
+          <span>Junte, converta, organize e assine arquivos direto no navegador.</span>
+        </article>
+        <article class="metric-card">
+          <strong>Ganhe produtividade</strong>
+          <span>Leve mais agilidade para sua rotina com uma plataforma completa.</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="institutional-section quote-grid-section">
+      <div class="quote-grid">
+        <article class="quote-card">
+          <span class="institutional-kicker">Segmento juridico</span>
+          <p>"A interface passa a comunicar segurança, ordem e profissionalismo. Isso é decisivo quando a ferramenta lida com contratos, petições, pareceres e documentação sensível."</p>
+          <strong>Coordenação jurídica</strong>
+          <span>Escritório de advocacia</span>
+        </article>
+        <article class="quote-card">
+          <span class="institutional-kicker">Operação corporativa</span>
+          <p>"O ganho nao esta só no visual. Esta em parecer um sistema confiável, organizado e preparado para contextos empresariais de rotina intensiva."</p>
+          <strong>Gestao administrativa</strong>
+          <span>Empresa de serviços corporativos</span>
+        </article>
+      </div>
+    </section>
+
+    <section id="home-security" class="institutional-section institutional-section-split institutional-section-muted">
+      <div class="institutional-copy">
+        <span class="institutional-kicker">Conformidade e seguranca</span>
+        <h2>Informação sensível pede linguagem sória, critérios visiveis e confianca verificavel.</h2>
+        <p>Em contextos profissionais, design bonito nao basta. O usuario precisa ver que existe metodo, protecao, politica e previsibilidade. O bloco de conformidade cumpre essa função com mais maturidade visual.</p>
+      </div>
+      <div class="compliance-grid">
+        <article class="compliance-card">
+          <strong>Criptografia durante o processamento</strong>
+          <p>Mensagens objetivas, menos promocionais e mais alinhadas a ambientes institucionais que exigem previsibilidade e confianca operacional.</p>
+        </article>
+        <article class="compliance-card">
+          <strong>Exclusao automatica de arquivos</strong>
+          <p>Mensagens objetivas, menos promocionais e mais alinhadas a ambientes institucionais que exigem previsibilidade e confianca operacional.</p>
+        </article>
+        <article class="compliance-card">
+          <strong>Política de privacidade acessóvel</strong>
+          <p>Mensagens objetivas, menos promocionais e mais alinhadas a ambientes institucionais que exigem previsibilidade e confianca operacional.</p>
+        </article>
+        <article class="compliance-card">
+          <strong>Comunicação compativel com LGPD</strong>
+          <p>Mensagens objetivas, menos promocionais e mais alinhadas a ambientes institucionais que exigem previsibilidade e confianca operacional.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="home-plans" class="institutional-section plans-section">
+      <div class="section-head section-head-centered">
+        <span class="institutional-kicker">Planos</span>
+        <h2>Estrutura comercial com presença mais executiva e leitura mais nobre.</h2>
+        <p>O redesenho comercial evita o apelo genérico de ferramenta barata e aproxima a percepção de serviço confiável, contínuo e adequado a equipes profissionais.</p>
+      </div>
+      <div class="plans-grid">
+        <article class="plan-card">
+          <span class="plan-label">Essencial</span>
+          <strong class="plan-price">R$ 0</strong>
+          <ul class="plan-feature-list">
+            <li>Ferramentas essenciais</li>
+            <li>Juntar por pasta: ate 35 arquivos por pasta</li>
+            <li>Limite total de 150 MB no Juntar por pasta</li>
+            <li>Sem subpastas no Juntar por pasta</li>
+            <li>Todas as ferramentas: ate 35 PDFs por operacao</li>
+            <li>Sem cartao de credito</li>
+          </ul>
+          <button type="button" class="plan-btn" onclick="abrirUnificador()">Começar sem custo</button>
+        </article>
+
+        <article class="plan-card plan-card-featured">
+          <span class="plan-label">Profissional</span>
+          <strong class="plan-price">R$ 18/mês</strong>
+          <span class="plan-price-note">Anual: R$ 172,80/usuario/ano (20% OFF)</span>
+          <ul class="plan-feature-list">
+            <li>Juntar por pasta: ate 500 arquivos por pasta</li>
+            <li>Limite total de 2 GB no Juntar por pasta</li>
+            <li>Subpastas liberadas no Juntar por pasta</li>
+            <li>Fluxos acima de 35 PDFs por operacao</li>
+            <li>OCR avançado</li>
+            <li>Processamento em lote</li>
+            <li>Maior capacidade de uso</li>
+          </ul>
+          <button type="button" class="plan-btn plan-btn-featured" onclick="window.location.href='premium.html'">Assinar plano</button>
+        </article>
+
+        <article class="plan-card">
+          <span class="plan-label">Corporativo</span>
+          <strong class="plan-price">Sob consulta</strong>
+          <p class="plan-corporate-note">Plano corporativo sob medida para equipes com multiusuários, governança de acessos e faturamento centralizado no cPanel.</p>
+          <ul class="plan-feature-list">
+            <li>Multiusuarios</li>
+            <li>Gestao administrativa</li>
+            <li>Integrações e API</li>
+            <li>Aténdimento comercial</li>
+          </ul>
+          <button type="button" class="plan-btn" onclick="window.location.href='contato.html'">Falar com consultor</button>
+        </article>
+      </div>
+
+    </section>
+
+    <section id="home-signup" class="institutional-section institutional-section-split signup-section">
+      <div class="institutional-copy">
+        <span class="institutional-kicker">Relacionamento e continuidade</span>
+        <h2>O cadastro deixa de ser uma barreira e passa a ser uma continuidade natural.</h2>
+        <p>A linguagem foi ajustada para parecer mais compativel com contratação, confianca institucional e permanência de uso. Isso melhora a adequação visual para clientes premium, escritórios e operacoes B2B.</p>
+      </div>
+      <div class="signup-card">
+        <h3>Solicite seu acesso</h3>
+        <p>Organize historico, acelere fluxos recorrentes e mantenha padronização documental em uma experiência mais sólida e institucional.</p>
+        <div class="signup-card-form">
+          <input id="home-signup-email" type="email" placeholder="E-mail profissional" autocomplete="email" aria-label="E-mail profissional">
+          <input id="home-signup-password" type="password" placeholder="Crie uma senha" autocomplete="new-password" aria-label="Crie uma senha">
+          <button type="button" class="signup-primary-btn" data-user-panel-trigger="register" onclick="abrirCadastroInstitucionalHome(event)">Criar conta institucional</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="home-faq" class="institutional-section faq-section">
+      <div class="section-head">
+        <span class="institutional-kicker">Perguntas frequentes</span>
+        <h2>Respostas apresentadas com objetividade e tom mais institucional.</h2>
+      </div>
+      <div class="faq-list-home">
+        <article class="faq-item-home">
+          <strong>Precisa instalar algum programa?</strong>
+          <p>Não. O uso é integralmente online, com experiência pensada para equipes, escritórios e operações corporativas.</p>
+        </article>
+        <article class="faq-item-home">
+          <strong>Os arquivos enviados ficam protegidos?</strong>
+          <p>Sim. A pagina evidencia medidas de protecao, exclusao automatica e uma comunicacao mais adequada ao padrao de confianca exigido em ambientes profissionais.</p>
+        </article>
+        <article class="faq-item-home">
+          <strong>Existe uma versao inicial sem custo?</strong>
+          <p>Sim. A proposta comercial mantem uma entrada sem custo para permitir adoção antes da expansao de uso.</p>
+        </article>
+        <article class="faq-item-home">
+          <strong>Essa interface serve para escritórios e empresas?</strong>
+          <p>Sim. O layout foi adaptado para transmitir sobriedade, ordem informacional e legitimidade institucional.</p>
+        </article>
+      </div>
+    </section>
+
+    <footer class="site-footer site-footer-redesign">
+      <div class="site-footer-redesign-main">
+        <div class="site-footer-redesign-brand">
+          <strong>GoPDF</strong>
+          <p>Plataforma documental com linguagem visual mais adequada a ambientes juridicos e corporativos.</p>
+        </div>
+        <div class="site-footer-redesign-links">
+          <a href="premium.html">Premium</a>
+          <a href="equipe.html">Equipe</a>
+          <a href="contato.html">Contato</a>
+          <a href="entrar.html?next=index.html">Entrar</a>
+          <a href="#" onclick="abrirUnificador(); return false;">Solucoes</a>
+          <a href="termos-de-uso.html">Termos</a>
+          <a href="politica-de-privacidade.html">Privacidade</a>
+          <a href="lgpd.html">LGPD</a>
+        </div>
+      </div>
+      <div class="site-footer-redesign-meta">
+        <span id="footer-version-pill" class="footer-meta-pill">Versao</span>
+        <span id="footer-updatéd-pill" class="footer-meta-pill">Atualizado em</span>
+        <div id="footer-copy" class="footer-copy">© 2026 GoPDF. Documentos e fluxos profissionais.</div>
+      </div>
+    </footer>
+  </section>
+
+</main>
+
+<!-- MODAL MINIATURAS -->
+<div id="modal-paginas" class="modal-overlay" style="display:none" onclick="fecharModal(event)">
+  <div class="modal-box">
+    <div class="modal-header">
+      <h3 id="modal-titulo">Paginas do documento</h3>
+      <button onclick="fecharModalBtn()" class="btn-fechar"></button>
+    </div>
+    <div id="modal-paginas-grid" class="modal-grid"></div>
+  </div>
+</div>
+
+<script src="script.js?v=2026.04.22-120000"></script>
+<script type="module" src="assets/js/pages/home-session.js?v=2026.04.19-173900"></script>
+
+</body>
+</html>
+
+
+
